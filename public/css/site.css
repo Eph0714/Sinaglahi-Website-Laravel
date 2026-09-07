@@ -1,0 +1,1314 @@
+/* ==========================================================================
+   Sinaglahi Artists Group — design tokens
+   Application-wide identity: BLACK + WHITE + MEDIUM YELLOW. Black is the
+   chrome (nav, headers, toolbars); white is the ground and readable content
+   surface; medium yellow is the ONE accent used for highlights, active/
+   selected states, borders, and primary calls-to-action - never as body
+   text on white (fails contrast), always paired with dark text when used
+   as a fill. Bold sans headings, crisp near-square corners (4-6px).
+   ========================================================================== */
+:root {
+  --color-bg: #faf9f7;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f2efe9;
+  --color-surface-elevated: #ffffff;
+  --color-text: #201d1a;
+  --color-muted: #6b6560;
+  --color-border: #e6e1d8;
+
+  /* Footer-only tokens (the public footer always uses these regardless of
+     theme - a deep navy/indigo band is the one deliberate departure from the
+     lighter dark gallery canvas, per the site's visual identity). */
+  --color-footer-bg: #252A3A;
+  --color-footer-text: #F0F0F0;
+  --color-footer-heading: #FFD21F;
+  --color-footer-link: #FFFFFF;
+  --color-footer-border: rgba(240, 240, 240, 0.18);
+
+  --color-primary: #141414;
+  --color-primary-dark: #0e0e0e;
+  --color-primary-tint: #fbf3d9;
+
+  /* Medium Yellow - the single application accent (Section 1). Bright
+     --color-accent is for backgrounds/borders/icons (always paired with
+     dark text on top); --color-accent-dark is the readable-on-white text
+     variant (used for links, small labels, hover states on light ground). */
+  --color-accent: #f2c230;
+  --color-accent-dark: #8a6800;
+  --color-accent-tint: #fdf3d0;
+
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-heading: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --radius: 6px;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.14);
+  --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.6;
+  overflow-x: hidden; /* decorative full-bleed elements (e.g. the Why Join
+    section's soft background circles) must never cause page-level horizontal
+    scroll on narrow viewports - vertical scrolling is unaffected. */
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  color: var(--color-primary-dark);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.font-display { font-family: var(--font-display); font-weight: 700; }
+
+/* Small bold accent-colored label above a heading, e.g. "Welcome to Sinaglahi" */
+.eyebrow {
+  display: inline-block;
+  color: var(--color-accent-dark);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+a { color: var(--color-primary); text-decoration: none; }
+a:hover { color: var(--color-accent-dark); text-decoration: underline; }
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.75rem 1rem;
+  z-index: 2000;
+}
+.skip-link:focus { top: 0; }
+
+/* ---------- Navbar ----------
+   Dark chrome per the reference theme's header, with a solid gold pill
+   marking the current page instead of a plain underline. */
+.site-navbar {
+  background: var(--color-primary-dark);
+  padding: 0.9rem 0;
+}
+
+.site-brand { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-mark {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+.brand-logo-img { max-height: 44px; width: auto; }
+.brand-sub {
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.site-navbar .nav-link {
+  color: #e9e5df;
+  font-weight: 500;
+  padding: 0.55rem 1rem;
+  border-radius: 4px;
+}
+.site-navbar .nav-link:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
+.site-navbar .nav-link.active-page {
+  background: var(--color-accent);
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+.site-navbar .nav-link.active-page:hover { background: var(--color-accent); color: var(--color-primary-dark); opacity: 0.9; }
+
+@media (max-width: 991.98px) {
+  /* Larger touch targets and clear separation once the menu drops open on mobile. */
+  .site-navbar .navbar-collapse { border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: 0.75rem; padding-top: 0.75rem; }
+  .site-navbar .nav-link { padding: 0.85rem 1rem; font-size: 1.05rem; }
+  .site-navbar .navbar-nav { gap: 0.15rem; }
+  .site-navbar .btn-join { display: inline-block; margin-top: 0.5rem; text-align: center; }
+}
+
+.btn-join {
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  padding: 0.5rem 1.1rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+/* Hover BRIGHTENS the yellow rather than inverting to a dark fill - a dark
+   hover state reads as the button "turning off", which is the opposite of
+   the confident, always-yellow primary action this button is meant to be. */
+.btn-join:hover, .btn-join:focus {
+  background: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+  color: var(--color-primary-dark);
+  box-shadow: 0 4px 14px rgba(255, 210, 31, 0.35);
+  transform: translateY(-1px);
+}
+.btn-join:active { transform: translateY(0); box-shadow: 0 2px 6px rgba(255, 210, 31, 0.3); }
+
+.btn-primary-brand {
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 0.6rem 1.4rem;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.btn-primary-brand:hover, .btn-primary-brand:focus {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-primary-dark);
+}
+
+.btn-outline-brand {
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  border-radius: 4px;
+  font-weight: 600;
+  padding: 0.55rem 1.3rem;
+  background: transparent;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.btn-outline-brand:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  background: linear-gradient(160deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: #f4efe6;
+  padding: 5.5rem 0 5rem;
+  text-align: center;
+  overflow: hidden;
+}
+/* Soft museum-lighting glow, purely decorative - sits behind the content. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255, 210, 31, 0.16) 0%, rgba(255, 210, 31, 0) 70%);
+  pointer-events: none;
+}
+.hero .container { position: relative; }
+.hero h1 {
+  color: #fff;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  margin-bottom: 1rem;
+}
+.hero .eyebrow, .page-hero .eyebrow, .join-band .eyebrow { display: block; color: var(--color-accent); }
+.hero p.subhead {
+  color: #d8d2c6;
+  font-size: 1.15rem;
+  max-width: 640px;
+  margin: 0 auto 2rem;
+}
+.hero .btn-group-hero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+/* Standalone (not scoped to .hero) so it also works on any dark section,
+   e.g. the sitewide join-band CTA. */
+.btn-light-outline {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  border-radius: 4px;
+  padding: 0.6rem 1.4rem;
+  font-weight: 600;
+  background: transparent;
+}
+.btn-light-outline:hover, .btn-light-outline:focus { background: rgba(255, 255, 255, 0.12); color: #fff; }
+
+/* Dark banner used at the top of every secondary page, matching the
+   reference theme's persistent dark "cover" header treatment. */
+.page-hero {
+  background: var(--color-primary-dark);
+  padding: 3.5rem 0;
+}
+.page-hero-compact { padding: 3rem 0; }
+.page-hero h1 { margin-bottom: 0.5rem; color: #fff; }
+.page-hero .lead-muted { color: #cfc8ba; }
+.page-hero .badge { background: rgba(255, 255, 255, 0.14); color: #fff; }
+.page-hero .alert { text-align: left; }
+.page-hero .text-muted { color: #cfc8ba !important; }
+.page-hero a:not(.btn) { color: #fff; text-decoration: underline; }
+.page-hero a:not(.btn):hover { color: var(--color-accent); }
+
+.lead-muted { color: var(--color-muted); font-size: 1.05rem; max-width: 680px; margin: 0 auto; }
+
+/* ---------- Sections ---------- */
+.section { padding: 4rem 0; }
+.section-tight { padding: 2.5rem 0; }
+.section-title { text-align: center; margin-bottom: 2.5rem; }
+.section-title h2 { margin-bottom: 0.5rem; }
+.section-title p { color: var(--color-muted); }
+
+.section-alt { background: var(--color-surface-muted); }
+
+/* ---------- Cards ---------- */
+.card-art {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.card-art:hover { transform: translateY(-3px); box-shadow: var(--shadow-soft); }
+
+.card-art .thumb-wrap {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-surface-muted);
+}
+.card-art .thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-art.card-artist .thumb-wrap { aspect-ratio: 1 / 1; }
+
+.card-art .card-art-body { padding: 1rem 1.1rem 1.2rem; flex: 1; display: flex; flex-direction: column; }
+.card-art .card-art-title { font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 0.15rem; display: block; color: var(--color-text); }
+.card-art .card-art-title:hover { color: var(--color-accent); text-decoration: none; }
+.card-art .card-art-meta { color: var(--color-muted); font-size: 0.85rem; margin-bottom: 0.6rem; }
+.card-art .card-art-extra { color: var(--color-text); font-size: 0.9rem; flex: 1; }
+.card-art .card-art-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-accent-dark);
+}
+.card-art .card-art-link:hover { color: var(--color-accent); text-decoration: none; }
+
+/* ---------- Join band ---------- */
+.join-band {
+  background: var(--color-primary-dark);
+  color: #f4efe6;
+  padding: 3.5rem 0;
+  text-align: center;
+}
+.join-band h2 { color: #fff; margin-bottom: 0.6rem; }
+.join-band p { color: #d8d2c6; max-width: 620px; margin: 0 auto 1.5rem; }
+
+/* ---------- Footer ---------- */
+/* The one deliberate complementary color departure from the black gallery
+   canvas (Section 10 of the brief): a deep navy/indigo band, warm gold
+   headings, soft cream body text - visually connected to the rest of the
+   dark theme while giving the page a distinct, memorable close. */
+.site-footer {
+  background: var(--color-footer-bg);
+  color: var(--color-footer-text);
+  padding: 3rem 0 1.5rem;
+  font-size: 0.9rem;
+}
+.site-footer h3, .site-footer h4 { color: var(--color-footer-heading); }
+.site-footer h4 { font-size: 1rem; font-family: var(--font-body); font-weight: 600; }
+.site-footer hr { border-color: var(--color-footer-border); margin: 2rem 0 1rem; }
+.footer-brand { font-family: var(--font-display); color: var(--color-footer-heading); }
+.footer-links { list-style: none; padding: 0; margin: 0; }
+.footer-links li { margin-bottom: 0.5rem; }
+.footer-links a { color: var(--color-footer-link); }
+.footer-links a:hover { color: var(--color-footer-heading); }
+.footer-social-links { list-style: none; padding: 0; margin: 1rem 0 0; display: flex; flex-wrap: wrap; gap: 0.9rem; }
+.footer-social-links a { color: var(--color-footer-heading); font-weight: 600; font-size: 0.85rem; }
+.footer-social-links a:hover { color: var(--color-footer-text); }
+
+/* ---------- Filters / forms ---------- */
+.filter-bar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+.filter-bar .form-label { font-weight: 600; font-size: 0.85rem; }
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem rgba(172, 131, 77, 0.2);
+}
+
+.auth-section { padding: 4rem 0; }
+.auth-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 2.2rem;
+  box-shadow: var(--shadow-card);
+}
+.auth-title { font-size: 1.6rem; }
+
+/* ---------- Pagination ---------- */
+.pagination-brand .page-link { color: var(--color-primary); }
+.pagination-brand .page-item.active .page-link {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+
+/* ---------- Artist profile ---------- */
+.artist-profile-header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  padding: 2.5rem 0 2rem;
+}
+.artist-avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 5px solid var(--color-surface);
+  object-fit: cover;
+  background: var(--color-surface-muted);
+  box-shadow: var(--shadow-soft);
+}
+.artist-tags .badge {
+  background: var(--color-accent-tint);
+  color: var(--color-accent);
+  border: 1px solid rgba(255, 210, 31, 0.3);
+  font-weight: 500;
+  margin-right: 0.4rem;
+}
+
+/* ---------- Artwork detail ---------- */
+.artwork-detail-image {
+  width: 100%;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+.artwork-detail-meta dt { color: var(--color-muted); font-weight: 500; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.artwork-detail-meta dd { margin-bottom: 0.9rem; font-size: 1.02rem; }
+
+/* ---------- Category chips ---------- */
+.category-chip {
+  display: inline-block;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  margin: 0.25rem;
+  font-size: 0.9rem;
+  transition: all 0.15s ease;
+}
+.category-chip:hover { border-color: var(--color-primary); color: var(--color-primary); text-decoration: none; }
+
+/* ---------- Join application wizard ---------- */
+.join-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  justify-content: center;
+}
+.join-step { display: flex; align-items: center; gap: 0.5rem; color: var(--color-muted); font-size: 0.9rem; }
+.join-step-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 600;
+  color: var(--color-muted);
+  background: var(--color-surface);
+}
+.join-step-current .join-step-dot { border-color: var(--color-accent); color: var(--color-accent); }
+.join-step-current .join-step-label { color: var(--color-text); font-weight: 600; }
+.join-step-done .join-step-dot { border-color: var(--color-accent); background: var(--color-accent); color: var(--color-primary-dark); }
+.join-step-done .join-step-label { color: var(--color-text); }
+
+.form-section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  margin-bottom: 1.75rem;
+}
+.form-section h2 { font-size: 1.2rem; margin-bottom: 1.25rem; }
+
+.artwork-progress {
+  background: var(--color-accent-tint);
+  border: 1px solid rgba(255, 210, 31, 0.25);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.artwork-progress.complete { background: rgba(74, 222, 128, 0.16); border-color: rgba(74, 222, 128, 0.35); color: #4ADE80; }
+
+.artwork-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+}
+.artwork-row img { width: 64px; height: 64px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+.artwork-row .artwork-row-info { flex: 1; min-width: 0; }
+.artwork-row .artwork-row-info .title { font-weight: 600; }
+.artwork-row .artwork-row-info .meta { color: var(--color-muted); font-size: 0.85rem; }
+
+.dropzone {
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius);
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.dropzone.dragover { border-color: var(--color-accent); background: var(--color-accent-tint); }
+.dropzone img.preview { max-height: 160px; border-radius: 6px; margin-bottom: 0.75rem; }
+
+.review-block dt { color: var(--color-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.review-block dd { margin-bottom: 0.75rem; }
+
+/* ---------- Rich text (CMS-authored) ---------- */
+.rich-content { color: var(--color-text); line-height: 1.75; }
+.rich-content p { margin-bottom: 1rem; color: var(--color-muted); }
+.rich-content h1, .rich-content h2, .rich-content h3 { margin-top: 1.5rem; }
+.rich-content ul, .rich-content ol { margin-bottom: 1rem; padding-left: 1.5rem; color: var(--color-muted); }
+.rich-content blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1rem;
+  color: var(--color-muted);
+  font-style: italic;
+  margin: 1.25rem 0;
+}
+.rich-content img { max-width: 100%; border-radius: var(--radius); margin: 1rem 0; }
+
+.core-value-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  height: 100%;
+}
+
+/* ---------- Testimonials ---------- */
+.testimonial-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.testimonial-quote { font-style: italic; color: var(--color-text); flex: 1; margin-bottom: 1.25rem; }
+.testimonial-author { display: flex; align-items: center; gap: 0.75rem; }
+.testimonial-author img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+.testimonial-name { font-weight: 700; font-size: 0.95rem; }
+.testimonial-position { font-size: 0.82rem; color: var(--color-muted); }
+
+/* ---------- Activity status (Section 7 - Homepage Content Priority) ----------
+   Subtle, muted indicators - deliberately not the bright accent yellow, so they
+   read as status information rather than a call to action. */
+.activity-status-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: var(--color-surface-elevated);
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+}
+.activity-status-upcoming { color: #9FE0EC; border-color: rgba(129, 199, 212, 0.35); background: rgba(129, 199, 212, 0.12); }
+.activity-status-ongoing { color: var(--color-accent); border-color: rgba(255, 210, 31, 0.35); background: var(--color-accent-tint); }
+.activity-status-completed { color: var(--color-muted); border-color: var(--color-border); background: var(--color-surface-elevated); }
+
+/* ---------- Group Activities ---------- */
+.activity-tags .badge {
+  background: var(--color-accent-tint);
+  color: var(--color-accent);
+  border: 1px solid rgba(255, 210, 31, 0.3);
+  font-weight: 500;
+}
+
+.activity-feature-card {
+  display: block;
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  color: #fff;
+  box-shadow: var(--shadow-card);
+}
+.activity-feature-card:hover { text-decoration: none; box-shadow: var(--shadow-soft); }
+.activity-feature-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--color-primary-tint);
+  transition: transform 0.25s ease;
+}
+.activity-feature-card:hover .activity-feature-img { transform: scale(1.04); }
+.activity-feature-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(20,15,24,0.85) 100%);
+}
+.activity-feature-date { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-accent); font-weight: 600; }
+.activity-feature-title { font-family: var(--font-heading); font-weight: 800; font-size: 1.3rem; color: #fff; margin: 0.15rem 0; }
+.activity-feature-loc { font-size: 0.85rem; color: #d8d2c6; }
+
+.activity-cover-wrap { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
+.activity-cover-img {
+  width: 100%;
+  max-height: 520px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  cursor: zoom-in;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Masonry via CSS columns: preserves each photo's natural aspect ratio
+   (Section 3: "do not distort images"), responsive column counts per Section 14. */
+.activity-masonry {
+  column-count: 4;
+  column-gap: 1rem;
+}
+.activity-masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  cursor: zoom-in;
+  box-shadow: var(--shadow-card);
+  background: var(--color-surface-muted);
+}
+.activity-masonry-item img { width: 100%; display: block; }
+.activity-masonry-caption {
+  padding: 0.5rem 0.7rem;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  background: var(--color-surface);
+}
+
+@media (max-width: 991.98px) {
+  .activity-masonry { column-count: 3; }
+}
+@media (max-width: 767.98px) {
+  .activity-masonry { column-count: 2; column-gap: 0.6rem; }
+  .activity-masonry-item { margin-bottom: 0.6rem; }
+}
+@media (max-width: 480px) {
+  .activity-masonry { column-count: 1; }
+}
+
+/* ---------- Lightbox (Section 62) ---------- */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.94);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.lightbox-content {
+  max-width: min(90vw, 1100px);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.lightbox-img {
+  max-width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  background: #000;
+}
+.lightbox-caption { color: #f4efe6; text-align: center; margin-top: 1rem; max-width: 100%; }
+.lightbox-title { font-family: var(--font-display); font-size: 1.2rem; }
+.lightbox-meta { color: #cfc8ba; font-size: 0.9rem; margin-top: 0.15rem; }
+.lightbox-desc { color: #cfc8ba; font-size: 0.85rem; margin-top: 0.5rem; max-width: 520px; margin-left: auto; margin-right: auto; }
+.lightbox-detail-link { display: inline-block; margin-top: 0.6rem; color: var(--color-accent); font-weight: 600; }
+.lightbox-detail-link:hover { color: var(--color-accent); }
+
+.lightbox-close, .lightbox-nav {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-close:hover, .lightbox-nav:hover { background: rgba(255, 255, 255, 0.22); }
+.lightbox-close { top: 1.25rem; right: 1.25rem; }
+.lightbox-prev { left: 1.25rem; top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: 1.25rem; top: 50%; transform: translateY(-50%); }
+
+@media (max-width: 600px) {
+  .lightbox-overlay { padding: 1rem; }
+  .lightbox-prev, .lightbox-next { width: 38px; height: 38px; font-size: 1.3rem; }
+}
+
+/* Makes gallery thumbnails read as clickable-to-enlarge, distinct from the card's own detail link. */
+.thumb-wrap.lightbox-open { cursor: zoom-in; display: block; }
+
+/* ---------- Utility ---------- */
+.empty-state {
+  text-align: center;
+  padding: 3.5rem 1rem;
+  color: var(--color-muted);
+}
+
+@media (max-width: 767.98px) {
+  .hero { padding: 3.5rem 0; }
+  .artist-avatar { width: 100px; height: 100px; }
+  .join-band { padding: 2.5rem 0; }
+}
+
+/* ==========================================================================
+   Photo Adjuster - crop/reposition modal used by profile & cover photo
+   inputs before upload (wwwroot/js/photo-adjuster.js). Site-wide since it's
+   used from the public Register page as well as the Admin/Artist areas.
+   ========================================================================== */
+.photo-adjust-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1080;
+  background: rgba(14, 14, 14, 0.7);
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.photo-adjust-overlay.is-open { display: flex; }
+.photo-adjust-box {
+  background: #fff;
+  border-radius: var(--radius, 6px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+  padding: 1.25rem;
+  max-width: 92vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.photo-adjust-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+.photo-adjust-close {
+  border: none;
+  background: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--color-muted, #6b7280);
+  cursor: pointer;
+  padding: 0 0.25rem;
+}
+.photo-adjust-close:hover { color: var(--color-primary-dark); }
+.photo-adjust-viewport {
+  position: relative;
+  overflow: hidden;
+  background: #111;
+  cursor: grab;
+  touch-action: none;
+  border: 2px solid var(--color-accent);
+}
+.photo-adjust-viewport:active { cursor: grabbing; }
+.photo-adjust-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.photo-adjust-hint { margin: 0; font-size: 0.8rem; color: var(--color-muted, #6b7280); }
+.photo-adjust-zoom { width: 100%; max-width: 300px; accent-color: var(--color-accent); }
+.photo-adjust-actions { display: flex; gap: 0.5rem; }
+
+/* ==========================================================================
+   Universal Back button - a slim bar at the top of every page's content
+   (wwwroot/js/back-button.js). Kept unobtrusive so it doesn't compete with
+   page heroes/headers.
+   ========================================================================== */
+.page-back-bar { padding: 0.6rem 0 0; }
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  margin-left: -0.6rem;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: var(--radius, 6px);
+  cursor: pointer;
+}
+.back-btn:hover { background: var(--color-surface-muted); color: var(--color-text); text-decoration: none; }
+.back-btn .bi { font-size: 0.85rem; }
+
+/* ==========================================================================
+   "Why Join Sinaglahi Artists?" section (Home/Index.cshtml) - fully
+   Super-Admin-editable content, benefit cards, and photo gallery.
+   ========================================================================== */
+.why-join-section {
+  position: relative;
+  padding: 5.5rem 0;
+  background: var(--color-surface);
+  overflow: hidden;
+}
+.why-join-section::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-accent-tint) 0%, rgba(253, 243, 208, 0) 70%);
+  pointer-events: none;
+}
+.why-join-section::after {
+  content: "";
+  position: absolute;
+  bottom: -160px;
+  left: -160px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 210, 31, 0.12) 0%, rgba(255, 210, 31, 0) 70%);
+  pointer-events: none;
+}
+.why-join-header { position: relative; max-width: 720px; margin: 0 auto 3.5rem; text-align: center; }
+.why-join-header .eyebrow { display: inline-block; margin-bottom: 0.75rem; }
+.why-join-header h2 { margin-bottom: 1rem; }
+.why-join-intro { color: var(--color-muted); font-size: 1.1rem; line-height: 1.75; }
+
+/* Gallery: one large featured photo with a filmstrip of supporting photos */
+.why-join-gallery { position: relative; margin-bottom: 4rem; }
+.why-join-featured {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 21 / 9;
+  box-shadow: var(--shadow-soft);
+}
+.why-join-featured img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+.why-join-featured:hover img { transform: scale(1.03); }
+.why-join-featured-caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(0deg, rgba(14, 14, 14, 0.82) 0%, rgba(14, 14, 14, 0) 100%);
+  color: #fff;
+}
+.why-join-featured-caption .caption-title { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 0.15rem; }
+.why-join-featured-caption .caption-text { font-size: 0.9rem; opacity: 0.85; }
+.why-join-supporting {
+  display: flex;
+  gap: 0.85rem;
+  margin-top: 0.85rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+.why-join-supporting img {
+  width: 140px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  flex-shrink: 0;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.why-join-supporting img:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); }
+
+/* Benefit cards */
+.why-join-benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; margin-bottom: 4rem; }
+.why-join-benefit-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 2rem 1.75rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.why-join-benefit-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-soft);
+  border-color: var(--color-accent);
+}
+.why-join-benefit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-accent-tint);
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+}
+.why-join-benefit-card h3 { font-size: 1.15rem; margin-bottom: 0.6rem; }
+.why-join-benefit-card p { color: var(--color-muted); font-size: 0.92rem; line-height: 1.65; margin: 0; }
+
+/* Featured statement band */
+.why-join-statement {
+  position: relative;
+  text-align: center;
+  background: var(--color-primary-dark);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 3.5rem 2rem;
+}
+.why-join-statement h3 {
+  font-family: var(--font-display);
+  color: #fff;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  max-width: 760px;
+  margin: 0 auto 1rem;
+  line-height: 1.35;
+}
+.why-join-statement p { color: rgba(255, 255, 255, 0.75); max-width: 620px; margin: 0 auto 1.75rem; }
+
+@media (max-width: 991.98px) {
+  .why-join-benefits { grid-template-columns: repeat(2, 1fr); }
+  .why-join-featured { aspect-ratio: 16 / 9; }
+}
+@media (max-width: 575.98px) {
+  .why-join-section { padding: 3.5rem 0; }
+  .why-join-section::before { width: 200px; height: 200px; top: -60px; right: -60px; }
+  .why-join-section::after { width: 200px; height: 200px; bottom: -60px; left: -60px; }
+  .why-join-benefits { grid-template-columns: 1fr; gap: 1.25rem; }
+  .why-join-featured { aspect-ratio: 4 / 3; }
+  .why-join-statement { padding: 2.5rem 1.25rem; }
+  .why-join-supporting img { width: 110px; height: 72px; }
+}
+
+/* jQuery Unobtrusive Validation toggles these classes itself but never ships
+   the CSS to actually hide the "no errors" state - without this, every page
+   using asp-validation-summary shows an empty colored box before any error
+   exists (was easy to miss on the old light theme, glaringly obvious once
+   .alert-danger got a real background/border for the dark theme below). */
+.validation-summary-valid { display: none; }
+.field-validation-valid { display: none; }
+
+/* ==========================================================================
+   LIGHTER DARK GALLERY THEME — public site only.
+   Everything below is scoped to body:not(.dashboard-body) so the Admin/Artist
+   dashboard (a separately-designed light-card console UI, defined in
+   dashboard.css) is completely unaffected - only the public-facing pages get
+   this treatment. Because nearly every rule above this point already reads
+   its colors from the shared --color-* custom properties, redefining those
+   properties here is enough to re-theme the whole public site; the handful
+   of rules that made light-background assumptions (dark text on white,
+   near-black borders, etc.) get explicit fixes below too.
+
+   Revision note: the very first pass of this theme used a pure #000000
+   background with a muted warm-gold accent. Both were found to hurt
+   readability - true black is fatiguing over long sessions and gold reads as
+   low-contrast/"dark yellow" against it - so this palette uses a lighter
+   charcoal scale (never pure black) with a bright, high-contrast yellow as
+   the single accent everywhere a color used to be gold. */
+body:not(.dashboard-body) {
+  --color-bg: #181818;            /* main page background */
+  --color-surface-muted: #202020; /* secondary background / alternating section bands */
+  --color-surface: #2B2B2B;       /* card background */
+  --color-surface-elevated: #323232; /* modals, dropdown menus, elevated buttons */
+  --color-text: #FFFFFF;
+  --color-muted: #A8A8A8;
+  --color-border: #454545;
+
+  /* Dark ink used as TEXT on top of the bright accent (buttons, badges) and
+     as the near-black chrome fill (navbar, hero overlay) - #171717 serves
+     both roles since it's dark enough for strong text contrast yet not
+     pure black, keeping even the "black" chrome inside the lighter palette. */
+  --color-primary-dark: #171717;
+
+  --color-accent: #FFD21F;       /* bright artistic yellow - the one accent, everywhere */
+  --color-accent-dark: #FFDC4D;  /* brightened yellow for hover (never darkened - see Buttons) */
+  --color-accent-tint: rgba(255, 210, 31, 0.16);
+  --color-primary-tint: rgba(255, 210, 31, 0.14);
+
+  --color-danger: #FF6B6B;   /* accessible red for danger actions/errors, readable on charcoal */
+  --color-success: #4ADE80; /* accessible green for success states */
+}
+
+/* Headings and default body links need to flip from "dark ink on white" to
+   "light ink on black" - everything else keeps working unchanged because it
+   already reads colors from the tokens above. */
+body:not(.dashboard-body) h1,
+body:not(.dashboard-body) h2,
+body:not(.dashboard-body) h3,
+body:not(.dashboard-body) h4 { color: var(--color-text); }
+
+/* :not(.btn) keeps this from out-specificity-ing the button color rules below
+   (:not()'s argument itself contributes specificity, so a bare "a" selector
+   here would otherwise beat a plain ".btn-join" rule and make every anchor-
+   tag button's text match its own background - found via visual testing). */
+body:not(.dashboard-body) a:not(.btn) { color: var(--color-accent); }
+body:not(.dashboard-body) a:not(.btn):hover { color: var(--color-accent-dark); }
+
+/* Outline/ghost buttons assumed dark ink on a light page - invert for black. */
+body:not(.dashboard-body) .btn-outline-brand {
+  border-color: var(--color-border);
+  color: var(--color-text);
+  background: transparent;
+}
+body:not(.dashboard-body) .btn-outline-brand:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-primary-dark);
+}
+
+/* .btn-primary-brand is this site's actual "Primary Action" class - used for
+   Submit/Save/Add/Confirm/Continue/Check Application Status throughout the
+   public site - so on the dark theme it becomes the same bright yellow as
+   .btn-join, not a neutral dark fill (which would read as secondary/inactive). */
+body:not(.dashboard-body) .btn-primary-brand {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+body:not(.dashboard-body) .btn-primary-brand:hover,
+body:not(.dashboard-body) .btn-primary-brand:focus {
+  background: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+  color: var(--color-primary-dark);
+  box-shadow: 0 4px 14px rgba(255, 210, 31, 0.35);
+  transform: translateY(-1px);
+}
+body:not(.dashboard-body) .btn-primary-brand:active { transform: translateY(0); }
+body:not(.dashboard-body) .btn-primary-brand:disabled,
+body:not(.dashboard-body) .btn-primary-brand.disabled {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-border);
+  color: var(--color-muted);
+  box-shadow: none;
+  transform: none;
+  opacity: 1;
+}
+
+/* Secondary Action: lighter charcoal/gray fill with white text - distinct
+   from the transparent/outline .btn-outline-brand used for Cancel/Back links. */
+body:not(.dashboard-body) .btn-secondary,
+body:not(.dashboard-body) .btn-outline-secondary:hover {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+body:not(.dashboard-body) .btn-secondary:hover,
+body:not(.dashboard-body) .btn-secondary:focus {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+body:not(.dashboard-body) .btn-outline-secondary {
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+/* Danger Action: accessible red with white text on the filled/hover state. */
+body:not(.dashboard-body) .btn-danger {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+  color: #fff;
+}
+body:not(.dashboard-body) .btn-danger:hover,
+body:not(.dashboard-body) .btn-danger:focus {
+  background: #ff8686;
+  border-color: #ff8686;
+  color: var(--color-primary-dark);
+}
+body:not(.dashboard-body) .btn-outline-danger {
+  background: transparent;
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+body:not(.dashboard-body) .btn-outline-danger:hover,
+body:not(.dashboard-body) .btn-outline-danger:focus {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+  color: #fff;
+}
+
+/* Pagination: Bootstrap's own .page-link carries a hardcoded white
+   background that none of our tokens touch by default. */
+body:not(.dashboard-body) .pagination-brand .page-link {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+body:not(.dashboard-body) .pagination-brand .page-link:hover {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+body:not(.dashboard-body) .pagination-brand .page-item.disabled .page-link {
+  background: var(--color-surface-muted);
+  color: var(--color-muted);
+  border-color: var(--color-border);
+}
+
+/* Category chip hover used near-black ink/border - swap for the accent. */
+body:not(.dashboard-body) .category-chip:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Photo adjuster modal (wwwroot/js/photo-adjuster.js) - shared with the
+   Admin/Artist areas, so it must stay light there; on the public site
+   (Register, Join application, Artist self-service) it becomes a dark,
+   elevated dialog to match everything else. */
+body:not(.dashboard-body) .photo-adjust-box { background: var(--color-surface-elevated); }
+body:not(.dashboard-body) .photo-adjust-header { color: var(--color-text); }
+body:not(.dashboard-body) .photo-adjust-close { color: var(--color-muted); }
+body:not(.dashboard-body) .photo-adjust-close:hover { color: var(--color-text); }
+body:not(.dashboard-body) .photo-adjust-hint { color: var(--color-muted); }
+
+body:not(.dashboard-body) .back-btn:hover { background: var(--color-surface-elevated); }
+
+/* --------------------------------------------------------------------------
+   Consistent dark form controls (every textbox, select, textarea, checkbox
+   across the public site: Join wizard, Register, Contact, Settings-facing
+   public forms). Bootstrap's defaults are light-only, so every property that
+   matters for a uniform look is set explicitly here in one place.
+   -------------------------------------------------------------------------- */
+body:not(.dashboard-body) .form-control,
+body:not(.dashboard-body) .form-select {
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: var(--radius);
+  padding: 0.65rem 0.9rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+body:not(.dashboard-body) textarea.form-control { padding: 0.65rem 0.9rem; }
+body:not(.dashboard-body) .form-control::placeholder { color: var(--color-muted); opacity: 1; }
+body:not(.dashboard-body) .form-control:focus,
+body:not(.dashboard-body) .form-select:focus {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-accent);
+  color: var(--color-text);
+  box-shadow: 0 0 0 0.2rem rgba(255, 210, 31, 0.25);
+}
+/* Bootstrap's select chevron is a dark SVG stroke - invisible on a dark
+   field, so it's redrawn here in a light tone. */
+body:not(.dashboard-body) .form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23A8A8A8' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+}
+body:not(.dashboard-body) .form-label { color: var(--color-text); font-weight: 600; }
+body:not(.dashboard-body) .form-text { color: var(--color-muted); }
+body:not(.dashboard-body) .form-check-input {
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+}
+body:not(.dashboard-body) .form-check-input:checked {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+body:not(.dashboard-body) .form-check-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 0.2rem rgba(255, 210, 31, 0.25);
+}
+body:not(.dashboard-body) .form-check-label { color: var(--color-text); }
+body:not(.dashboard-body) .form-control:disabled,
+body:not(.dashboard-body) .form-select:disabled {
+  background-color: var(--color-surface-muted);
+  color: var(--color-muted);
+  opacity: 1;
+}
+body:not(.dashboard-body) .form-control.is-invalid,
+body:not(.dashboard-body) .form-select.is-invalid { border-color: var(--color-danger); }
+body:not(.dashboard-body) .form-control.is-valid,
+body:not(.dashboard-body) .form-select.is-valid { border-color: var(--color-success); }
+body:not(.dashboard-body) .invalid-feedback { color: var(--color-danger); }
+body:not(.dashboard-body) .valid-feedback { color: var(--color-success); }
+body:not(.dashboard-body) .text-danger { color: var(--color-danger) !important; }
+/* Native date/file picker icons render dark-on-transparent by default,
+   which disappears against a dark field. */
+body:not(.dashboard-body) input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1) brightness(1.6); }
+body:not(.dashboard-body) .form-control[type="file"] { color: var(--color-muted); }
+body:not(.dashboard-body) .form-control[type="file"]::file-selector-button {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.8rem;
+  margin-right: 0.75rem;
+}
+body:not(.dashboard-body) .form-control[type="file"]::file-selector-button:hover { background: var(--color-surface-elevated); }
+
+/* Bootstrap alerts (validation summaries, Join wizard notices) default to
+   pastel light backgrounds - re-tinted here to sit naturally on black. */
+body:not(.dashboard-body) .alert {
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+}
+body:not(.dashboard-body) .alert-danger { background: rgba(229, 115, 115, 0.12); border-color: rgba(229, 115, 115, 0.35); color: #FFB4AC; }
+body:not(.dashboard-body) .alert-success { background: rgba(123, 224, 168, 0.12); border-color: rgba(123, 224, 168, 0.35); color: #9BEFC2; }
+body:not(.dashboard-body) .alert-warning { background: var(--color-accent-tint); border-color: rgba(255, 210, 31, 0.4); color: var(--color-accent); }
+body:not(.dashboard-body) .alert-info { background: rgba(129, 199, 212, 0.12); border-color: rgba(129, 199, 212, 0.35); color: #A9E1EB; }
+body:not(.dashboard-body) .badge.bg-warning { background: var(--color-accent) !important; color: var(--color-primary-dark) !important; }
+
+/* ===================== Application Status page (Section 17) ===================== */
+
+.status-lookup-intro {
+  background: var(--color-accent-tint);
+  border: 1px solid rgba(255, 210, 31, 0.3);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  color: var(--color-text);
+}
+.status-lookup-intro strong { color: var(--color-accent); }
+
+.status-badge-lg { font-size: 0.95rem; padding: 0.5rem 1rem; border-radius: 999px; letter-spacing: 0.02em; }
+
+.status-badge-submitted { background: var(--color-accent-tint); color: var(--color-accent); border: 1px solid rgba(255, 210, 31, 0.35); }
+.status-badge-review { background: rgba(129, 199, 212, 0.14); color: #9FE0EC; border: 1px solid rgba(129, 199, 212, 0.35); }
+.status-badge-revision { background: rgba(230, 168, 84, 0.14); color: #F0BE6E; border: 1px solid rgba(230, 168, 84, 0.4); }
+.status-badge-approved { background: rgba(123, 224, 168, 0.14); color: #7BE0A8; border: 1px solid rgba(123, 224, 168, 0.4); }
+.status-badge-rejected { background: rgba(229, 115, 115, 0.14); color: #FF8A80; border: 1px solid rgba(229, 115, 115, 0.4); }
+.status-badge-withdrawn { background: var(--color-surface-elevated); color: var(--color-muted); border: 1px solid var(--color-border); }
+
+.status-result-details dt { color: var(--color-muted); font-weight: 500; }
+.status-result-details dd { color: var(--color-text); }
+
+/* Horizontal progress tracker; collapses to a vertical stack on mobile
+   (Section 17 #14 - "stack the timeline vertically"). */
+.status-timeline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+}
+.status-timeline-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: center;
+}
+.status-timeline-dot {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-elevated);
+  border: 2px solid var(--color-border);
+  color: var(--color-muted);
+  font-size: 1rem;
+  z-index: 1;
+}
+.status-timeline-label {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  padding: 0 0.25rem;
+}
+.status-timeline-connector {
+  position: absolute;
+  top: 1.125rem;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--color-border);
+  z-index: 0;
+}
+.status-timeline-step.is-done .status-timeline-dot { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-primary-dark); }
+.status-timeline-step.is-done .status-timeline-label { color: var(--color-text); }
+.status-timeline-step.is-done .status-timeline-connector { background: var(--color-accent); }
+.status-timeline-step.is-current .status-timeline-dot { background: var(--color-surface-elevated); border-color: var(--color-accent); color: var(--color-accent); box-shadow: 0 0 0 4px var(--color-accent-tint); }
+.status-timeline-step.is-current .status-timeline-label { color: var(--color-accent); font-weight: 600; }
+.status-timeline-step.is-rejected .status-timeline-dot { background: rgba(255, 107, 107, 0.18); border-color: var(--color-danger); color: var(--color-danger); }
+.status-timeline-step.is-rejected .status-timeline-label { color: var(--color-danger); font-weight: 600; }
+
+@media (max-width: 575.98px) {
+  .status-timeline { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
+  .status-timeline-step { flex-direction: row; align-items: center; text-align: left; width: 100%; }
+  .status-timeline-label { margin-top: 0; margin-left: 0.75rem; font-size: 0.9rem; }
+  .status-timeline-connector { top: 100%; left: 1.125rem; width: 2px; height: 1.25rem; }
+}
+
+.status-history-table { color: var(--color-text); }
+.status-history-table th {
+  color: var(--color-muted);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid var(--color-border);
+}
+.status-history-table td { border-bottom: 1px solid var(--color-border); vertical-align: top; font-size: 0.9rem; }
+
+.status-welcome-banner {
+  background: var(--color-accent-tint);
+  border: 1px solid rgba(255, 210, 31, 0.35);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.status-welcome-banner h2 { color: var(--color-accent); }
+
+@media (max-width: 575.98px) {
+  .status-result-details.row dt, .status-result-details.row dd { flex: 0 0 100%; max-width: 100%; }
+  .status-result-details.row dd { margin-bottom: 0.75rem; }
+}
+body:not(.dashboard-body) .badge.bg-secondary { background: var(--color-surface-elevated) !important; color: var(--color-text) !important; }
