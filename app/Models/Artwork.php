@@ -29,6 +29,19 @@ class Artwork extends Model
 
     public const STATUS_ARCHIVED = 5;
 
+    public function statusLabel(): string
+    {
+        return match ((int) $this->Status) {
+            self::STATUS_DRAFT => 'Draft',
+            self::STATUS_PENDING_REVIEW => 'PendingReview',
+            self::STATUS_APPROVED => 'Approved',
+            self::STATUS_REJECTED => 'Rejected',
+            self::STATUS_PUBLISHED => 'Published',
+            self::STATUS_ARCHIVED => 'Archived',
+            default => 'Unknown',
+        };
+    }
+
     protected function casts(): array
     {
         return [

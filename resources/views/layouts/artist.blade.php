@@ -30,12 +30,21 @@
             <a href="{{ route('artist.dashboard') }}" class="dashboard-nav-link {{ request()->routeIs('artist.dashboard') ? 'active' : '' }}">
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
-            {{-- Profile editing and artwork management are ported next. --}}
+            <a href="{{ route('artist.profile.edit') }}" class="dashboard-nav-link {{ request()->routeIs('artist.profile.*') ? 'active' : '' }}">
+                <i class="bi bi-person"></i> Edit Profile
+            </a>
+            <a href="{{ route('artist.artworks.index') }}" class="dashboard-nav-link {{ request()->routeIs('artist.artworks.*') ? 'active' : '' }}">
+                <i class="bi bi-images"></i> My Artworks
+            </a>
         </nav>
 
         <main class="dashboard-content">
             @yield('content')
         </main>
     </div>
+
+    <script src="{{ asset('lib/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('lib/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>
