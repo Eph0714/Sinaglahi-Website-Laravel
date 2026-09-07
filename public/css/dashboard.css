@@ -1,0 +1,391 @@
+/* ==========================================================================
+   Admin/Artist dashboard shell - a distinct "enterprise console" register
+   from the public marketing site (which keeps its black/gold brand identity).
+   Semantic action colors below follow a fixed convention enforced app-wide
+   by wwwroot/js/admin-ui-enhance.js, which reads each button's own label and
+   applies the matching class + icon automatically - so every module gets the
+   same colors/icons for the same action without hand-editing every view.
+   ========================================================================== */
+:root {
+  --color-add: #1e8e3e;
+  --color-add-dark: #166b30;
+  --color-edit: #1a56db;
+  --color-edit-dark: #1442a8;
+  --color-delete: #d92d20;
+  --color-delete-dark: #b1281a;
+  --color-neutral: #6b7280;
+  --color-neutral-dark: #4b5563;
+  --color-cyan: #0891b2;
+  --color-cyan-dark: #0e7490;
+  --color-purple: #7c3aed;
+  --color-purple-dark: #6425d0;
+  --color-orange: #d9740a;
+  --color-orange-dark: #b25f08;
+  --color-print: var(--color-purple);
+  --color-print-dark: var(--color-purple-dark);
+
+  --dash-radius: 6px;
+  --dash-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.08);
+  --dash-shadow-lg: 0 4px 12px rgba(16, 24, 40, 0.1);
+}
+
+/* Shared shell for the Artist and (later) Admin dashboards. */
+.dashboard-body { background: var(--color-bg); font-size: 0.95rem; }
+.dashboard-body h1, .dashboard-body h2, .dashboard-body h3 { font-family: var(--font-heading); }
+.dashboard-content h1.h3 { font-size: 1.5rem; font-weight: 700; }
+
+.dashboard-topbar {
+  background: var(--color-primary-dark);
+  color: #fff;
+  padding: 0.75rem 0;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.dashboard-topbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 1900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.dashboard-brand { font-family: var(--font-display); font-weight: 700; color: #fff; font-size: 1.2rem; }
+.dashboard-brand:hover { color: #fff; text-decoration: none; }
+.dashboard-topbar-title {
+  color: #d8d2c6;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+.dashboard-topbar a.small { color: #d8d2c6; }
+.dashboard-topbar a.small:hover { color: #fff; }
+
+.dashboard-shell {
+  display: flex;
+  max-width: 1900px;
+  margin: 0 auto;
+  min-height: calc(100vh - 56px);
+}
+
+/* Black navigation rail (Section 1: nav bars/toolbars are the primary black
+   surfaces), yellow marks the active/selected item - the one accent color
+   in the whole sidebar, used nowhere else there so it stays meaningful. */
+.dashboard-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--color-primary-dark);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.25rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.dashboard-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 6px;
+  color: #d7d3cc;
+  font-weight: 500;
+  font-size: 0.88rem;
+  line-height: 1.3;
+}
+.dashboard-nav-link .bi { font-size: 0.95rem; color: #8a8680; width: 1rem; text-align: center; flex-shrink: 0; }
+.dashboard-nav-link:hover { background: rgba(255, 255, 255, 0.08); color: #fff; text-decoration: none; }
+.dashboard-nav-link:hover .bi { color: #fff; }
+.dashboard-nav-link.active {
+  background: var(--color-accent);
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+.dashboard-nav-link.active .bi { color: var(--color-primary-dark); }
+.dashboard-nav-heading {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #7a766f;
+  margin: 1.1rem 0.75rem 0.3rem;
+}
+.dashboard-nav-heading:first-child { margin-top: 0.25rem; }
+.notification-list { list-style: none; padding: 0; margin: 0 0 2rem; }
+.notification-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff8e6;
+  border: 1px solid #f0dfa8;
+  border-radius: var(--radius);
+  padding: 0.85rem 1.1rem;
+  margin-bottom: 0.6rem;
+  color: #7a5c00;
+  font-weight: 500;
+}
+.notification-item a { color: #7a5c00; text-decoration: underline; font-weight: 600; }
+
+.filter-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
+.filter-pill {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-size: 0.85rem;
+  background: var(--color-surface);
+}
+.filter-pill.active { background: var(--color-accent); color: var(--color-primary-dark); border-color: var(--color-accent); font-weight: 700; }
+.filter-pill:hover { text-decoration: none; border-color: var(--color-accent); }
+
+.dashboard-content { flex: 1; padding: 1.75rem 2rem; min-width: 0; }
+
+.dashboard-welcome { margin-bottom: 2rem; }
+.dashboard-welcome h1 { margin-bottom: 0.25rem; }
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--dash-radius);
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--dash-shadow);
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.stat-card:hover { box-shadow: var(--dash-shadow-lg); transform: translateY(-1px); }
+.stat-card .stat-icon {
+  width: 42px; height: 42px; flex-shrink: 0;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--color-primary-tint);
+  color: var(--color-primary-dark);
+  font-size: 1.1rem;
+}
+.stat-card .stat-body { min-width: 0; text-align: left; }
+.stat-card .stat-value { font-family: var(--font-heading); font-weight: 800; font-size: 1.6rem; color: var(--color-primary-dark); line-height: 1.1; }
+.stat-card .stat-label { color: var(--color-muted); font-size: 0.8rem; font-weight: 500; }
+
+.dashboard-section-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-muted);
+  margin: 2rem 0 0.9rem;
+}
+.dashboard-section-title:first-child { margin-top: 0; }
+
+.quick-actions { display: flex; flex-wrap: wrap; gap: 1rem; }
+.quick-action-card {
+  flex: 1 1 200px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--dash-radius);
+  padding: 1.25rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  box-shadow: var(--dash-shadow);
+}
+.quick-action-card .bi { font-size: 1.3rem; color: var(--color-accent-dark); flex-shrink: 0; }
+.quick-action-card:hover { border-color: var(--color-primary); text-decoration: none; box-shadow: var(--dash-shadow-lg); transform: translateY(-1px); }
+
+/* NOTE: no overflow:hidden here - it would silently clip the actions column's
+   own internal scroll below (a real bug found in testing: the buttons simply
+   vanished off the edge with no way to reach them). Rounded corners come from
+   the header/body radii instead of clipping the table box. */
+.dash-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--dash-radius); box-shadow: var(--dash-shadow); }
+.dash-table thead tr:first-child th:first-child { border-top-left-radius: var(--dash-radius); }
+.dash-table thead tr:first-child th:last-child { border-top-right-radius: var(--dash-radius); }
+.dash-table th { background: var(--color-surface-muted); text-align: left; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; color: var(--color-muted); padding: 0.85rem 1rem; white-space: nowrap; position: sticky; top: 0; z-index: 2; }
+.dash-table td { padding: 0.85rem 1rem; border-top: 1px solid var(--color-border); vertical-align: middle; font-size: 0.9rem; }
+.dash-table tbody tr:hover { background: var(--color-surface-muted); }
+.dash-table img.thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 6px; }
+.dash-table td.text-end, .dash-table th.text-end { text-align: right; }
+
+/* Section 2/7: row action icons stay in ONE horizontal line - never wrap or
+   stack. By convention every table's last column holds its row actions, so
+   this is enforced structurally rather than needing a class on every view.
+   The actions cell gets its OWN capped width + scroll, rather than letting
+   the whole table grow past the viewport just to fit one wide column. */
+.dash-table td:last-child {
+  white-space: nowrap;
+  max-width: 340px;
+}
+.dash-table td:last-child > .d-flex,
+.dash-table .row-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  align-items: center;
+  scrollbar-width: thin;
+  max-width: 100%;
+}
+.dash-table td:last-child .btn { flex-shrink: 0; white-space: nowrap; }
+
+/* Section 2: page-level action toolbars (e.g. a Details page's Approve/
+   Reject/Edit/Delete row) also stay in one horizontal line - scroll instead
+   of wrapping to a second row when the window narrows. */
+.action-toolbar {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+}
+.action-toolbar .btn { flex-shrink: 0; }
+
+.status-badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.28rem 0.7rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; white-space: nowrap; }
+.status-draft, .status-inactive, .status-disabled, .status-hidden, .status-unpublished { background: #eef0f2; color: #495057; }
+.status-pendingreview, .status-pending, .status-underreview, .status-additionalinforequired { background: #fff3cd; color: #856404; }
+.status-approved, .status-published, .status-active, .status-enabled, .status-verified, .status-visible { background: #e6f4ea; color: #1e6b3a; }
+.status-rejected, .status-permanent { background: #fbe4e4; color: #a02c2c; }
+.status-archived, .status-reversed { background: #eee; color: #777; }
+.status-featured { background: var(--color-accent-tint); color: var(--color-accent-dark); }
+
+.bg-brand { background: var(--color-primary) !important; }
+.permission-from-role { background: var(--color-primary-tint); border-radius: 4px; padding: 0.15rem 0.4rem; }
+
+/* ---------- Standard action button colors (Section 3) ----------
+   Consistent, semantic, and applied automatically by admin-ui-enhance.js
+   based on each button's own label - never hand-picked per module. */
+.btn { display: inline-flex; align-items: center; gap: 0.4rem; }
+.btn .bi { font-size: 0.95em; line-height: 1; }
+
+.btn-add, .btn-add:focus { background: var(--color-add); border-color: var(--color-add); color: #fff; }
+.btn-add:hover { background: var(--color-add-dark); border-color: var(--color-add-dark); color: #fff; }
+
+.btn-edit { background: transparent; border: 1px solid var(--color-edit); color: var(--color-edit); }
+.btn-edit:hover { background: var(--color-edit); border-color: var(--color-edit); color: #fff; }
+
+.btn-delete { background: transparent; border: 1px solid var(--color-delete); color: var(--color-delete); }
+.btn-delete:hover { background: var(--color-delete); border-color: var(--color-delete); color: #fff; }
+.btn-delete-solid, .btn-delete-solid:focus { background: var(--color-delete); border-color: var(--color-delete); color: #fff; }
+.btn-delete-solid:hover { background: var(--color-delete-dark); border-color: var(--color-delete-dark); color: #fff; }
+
+.btn-view, .btn-search { background: transparent; border: 1px solid var(--color-cyan); color: var(--color-cyan-dark); }
+.btn-view:hover, .btn-search:hover { background: var(--color-cyan); border-color: var(--color-cyan); color: #fff; }
+
+.btn-save, .btn-save:focus { background: var(--color-add); border-color: var(--color-add); color: #fff; }
+.btn-save:hover { background: var(--color-add-dark); border-color: var(--color-add-dark); color: #fff; }
+
+.btn-cancel { background: transparent; border: 1px solid var(--color-border); color: var(--color-muted); }
+.btn-cancel:hover { background: var(--color-surface-muted); border-color: var(--color-border); color: var(--color-text); }
+
+.btn-refresh { background: transparent; border: 1px solid var(--color-cyan); color: var(--color-cyan-dark); }
+.btn-refresh:hover { background: var(--color-cyan); border-color: var(--color-cyan); color: #fff; }
+
+.btn-print { background: transparent; border: 1px solid var(--color-purple); color: var(--color-purple); }
+.btn-print:hover { background: var(--color-purple); border-color: var(--color-purple); color: #fff; }
+
+.btn-settings { background: transparent; border: 1px solid var(--color-orange); color: var(--color-orange-dark); }
+.btn-settings:hover { background: var(--color-orange); border-color: var(--color-orange); color: #fff; }
+
+.btn-export { background: transparent; border: 1px solid var(--color-edit); color: var(--color-edit); }
+.btn-export:hover { background: var(--color-edit); border-color: var(--color-edit); color: #fff; }
+
+.btn-import, .btn-upload { background: transparent; border: 1px solid var(--color-orange); color: var(--color-orange-dark); }
+.btn-import:hover, .btn-upload:hover { background: var(--color-orange); border-color: var(--color-orange); color: #fff; }
+
+.btn:disabled, .btn.disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Section 5: exactly one prominent (yellow) primary action per view - never
+   every button competing for attention. Opt a single CTA into it explicitly. */
+.btn-primary-action {
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+.btn-primary-action:hover { background: var(--color-accent-dark); border-color: var(--color-accent-dark); color: #fff; }
+
+/* ---------- Forms (admin) ---------- */
+.dashboard-body .form-section { box-shadow: var(--dash-shadow); }
+.dashboard-body .form-section h2 { font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; color: var(--color-muted); border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem; }
+.dashboard-body label.form-label { font-weight: 600; font-size: 0.85rem; color: var(--color-text); }
+.dashboard-body .form-control, .dashboard-body .form-select { border-color: var(--color-border); font-size: 0.9rem; }
+.dashboard-body .form-control:focus, .dashboard-body .form-select:focus { border-color: var(--color-edit); box-shadow: 0 0 0 0.2rem rgba(26, 86, 219, 0.15); }
+.dashboard-body .required-mark::after { content: " *"; color: var(--color-delete); }
+
+/* ---------- Modals / alerts (admin) ---------- */
+.dashboard-body .modal-content { border: none; border-radius: var(--dash-radius); box-shadow: var(--dash-shadow-lg); }
+.dashboard-body .modal-header { border-bottom: 1px solid var(--color-border); }
+.dashboard-body .modal-footer { border-top: 1px solid var(--color-border); }
+.dashboard-body .alert { border-radius: var(--dash-radius); border: 1px solid transparent; }
+
+.photo-manage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.photo-manage-tile {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.5rem;
+  position: relative;
+  cursor: grab;
+  transition: opacity 0.15s ease;
+}
+.photo-manage-tile.dragging { opacity: 0.4; }
+.photo-manage-tile.is-hidden { opacity: 0.5; border-style: dashed; }
+.photo-manage-tile img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 6px; margin-bottom: 0.4rem; }
+.photo-manage-select { position: absolute; top: 0.6rem; left: 0.6rem; z-index: 2; }
+.photo-manage-cover-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.85);
+  color: #bbb;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.photo-manage-cover-btn.is-cover { color: var(--color-accent); }
+.photo-manage-cover-btn:hover { color: var(--color-accent-dark); }
+.photo-caption-input, .photo-description-input { font-size: 0.8rem; }
+.photo-description-input { resize: vertical; }
+
+.photo-manage-featured-badge {
+  position: absolute;
+  top: 0.5rem;
+  left: 2.5rem;
+  z-index: 2;
+  background: var(--color-accent);
+  color: var(--color-primary-dark, #171717);
+  font-weight: 700;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.photo-replace-label {
+  font-size: 0.78rem;
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .dashboard-shell { flex-direction: column; }
+  .dashboard-sidebar { width: 100%; flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--color-border); }
+  .dashboard-content { padding: 1.25rem; }
+  .dash-table { display: block; overflow-x: auto; }
+}

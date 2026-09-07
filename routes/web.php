@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Artist\DashboardController as ArtistDashboardController;
 use App\Http\Controllers\ArtistsController;
 use App\Http\Controllers\ArtworksController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupActivitiesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlaceholderController;
@@ -21,10 +24,22 @@ Route::get('/artworks/{slug}', [ArtworksController::class, 'show'])->name('artwo
 Route::get('/group-activities', [GroupActivitiesController::class, 'index'])->name('group-activities.index');
 Route::get('/group-activities/{slug}', [GroupActivitiesController::class, 'show'])->name('group-activities.show');
 
-// Phase 2 (auth, the Join wizard, and the Admin/Artist areas) is not ported
-// yet - these stay as simple placeholders so the layout's nav/footer links
-// don't 404 while the public catalog pages above are the focus of Phase 1.
+// ---------------- Auth ----------------
+Route::get('/account/login', [AuthController::class, 'showLogin'])->name('account.login');
+Route::post('/account/login', [AuthController::class, 'login'])->name('account.login.submit');
+Route::post('/account/logout', [AuthController::class, 'logout'])->name('account.logout');
+Route::get('/account/register', [PlaceholderController::class, 'comingSoon'])->name('account.register');
+
+// ---------------- Admin area ----------------
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+});
+
+// ---------------- Artist area ----------------
+Route::middleware(['auth', 'artist'])->prefix('artist')->name('artist.')->group(function () {
+    Route::get('/', [ArtistDashboardController::class, 'index'])->name('dashboard');
+});
+
+// Phase 2 continues: the Join wizard is not ported yet.
 Route::get('/join', [PlaceholderController::class, 'comingSoon'])->name('join.index');
 Route::get('/join/check-status', [PlaceholderController::class, 'comingSoon'])->name('join.checkStatus');
-Route::get('/account/login', [PlaceholderController::class, 'comingSoon'])->name('account.login');
-Route::get('/account/register', [PlaceholderController::class, 'comingSoon'])->name('account.register');

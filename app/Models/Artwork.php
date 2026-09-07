@@ -17,7 +17,17 @@ class Artwork extends Model
     protected $guarded = [];
 
     // Mirrors ArtworkStatus in the .NET model.
+    public const STATUS_DRAFT = 0;
+
+    public const STATUS_PENDING_REVIEW = 1;
+
+    public const STATUS_APPROVED = 2;
+
+    public const STATUS_REJECTED = 3;
+
     public const STATUS_PUBLISHED = 4;
+
+    public const STATUS_ARCHIVED = 5;
 
     protected function casts(): array
     {
