@@ -50,6 +50,9 @@
             <a href="{{ route('admin.art-mediums.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.art-mediums.*') ? 'active' : '' }}">
                 <i class="bi bi-palette"></i> Art Mediums
             </a>
+            <a href="{{ route('admin.activity-categories.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.activity-categories.*') ? 'active' : '' }}">
+                <i class="bi bi-diagram-3"></i> Activity Categories
+            </a>
             <div class="dashboard-nav-heading">Website</div>
             <a href="{{ route('admin.settings.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.settings.index') ? 'active' : '' }}">
                 <i class="bi bi-gear"></i> General Settings &amp; Logo

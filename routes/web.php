@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ActivitiesController as AdminActivitiesController;
+use App\Http\Controllers\Admin\ActivityCategoriesController as AdminActivityCategoriesController;
 use App\Http\Controllers\Admin\ApplicationsController as AdminApplicationsController;
 use App\Http\Controllers\Admin\ArtistsController as AdminArtistsController;
 use App\Http\Controllers\Admin\ArtMediumsController as AdminArtMediumsController;
@@ -55,6 +56,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('/categories', [AdminCategoriesController::class, 'index'])->name('categories.index');
     Route::post('/categories/{id}/toggle', [AdminCategoriesController::class, 'toggleActive'])->name('categories.toggle');
+
+    Route::get('/activity-categories', [AdminActivityCategoriesController::class, 'index'])->name('activity-categories.index');
+    Route::post('/activity-categories', [AdminActivityCategoriesController::class, 'store'])->name('activity-categories.store');
+    Route::post('/activity-categories/update', [AdminActivityCategoriesController::class, 'update'])->name('activity-categories.update');
+    Route::post('/activity-categories/{id}/toggle', [AdminActivityCategoriesController::class, 'toggleActive'])->name('activity-categories.toggle');
+    Route::post('/activity-categories/{id}/delete', [AdminActivityCategoriesController::class, 'destroy'])->name('activity-categories.destroy');
 
     Route::get('/art-mediums', [AdminArtMediumsController::class, 'index'])->name('art-mediums.index');
     Route::post('/art-mediums', [AdminArtMediumsController::class, 'store'])->name('art-mediums.store');
