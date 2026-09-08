@@ -11,8 +11,10 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\FaqController as AdminFaqController;
 use App\Http\Controllers\Admin\NavigationController as AdminNavigationController;
 use App\Http\Controllers\Admin\PagesController as AdminPagesController;
+use App\Http\Controllers\Admin\RolesController as AdminRolesController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\TestimonialsController as AdminTestimonialsController;
+use App\Http\Controllers\Admin\UsersController as AdminUsersController;
 use App\Http\Controllers\Admin\WhyJoinController as AdminWhyJoinController;
 use App\Http\Controllers\Artist\ArtworksController as ArtistArtworksController;
 use App\Http\Controllers\Artist\DashboardController as ArtistDashboardController;
@@ -185,6 +187,28 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/pages/{id}', [AdminPagesController::class, 'update'])->name('pages.update');
     Route::post('/pages/{id}/toggle', [AdminPagesController::class, 'togglePublished'])->name('pages.toggle');
     Route::post('/pages/{id}/delete', [AdminPagesController::class, 'destroy'])->name('pages.destroy');
+
+    // ---------------- Users & Admin Roles/Permissions (Super Admin only) ----------------
+    Route::middleware('superadmin')->group(function () {
+        Route::get('/users/transfer-super-admin', [AdminUsersController::class, 'transferSuperAdminForm'])->name('users.transfer-super-admin');
+        Route::post('/users/transfer-super-admin', [AdminUsersController::class, 'transferSuperAdmin'])->name('users.transfer-super-admin.store');
+        Route::get('/users', [AdminUsersController::class, 'index'])->name('users.index');
+        Route::get('/users/create', [AdminUsersController::class, 'create'])->name('users.create');
+        Route::post('/users', [AdminUsersController::class, 'store'])->name('users.store');
+        Route::get('/users/{id}/edit', [AdminUsersController::class, 'edit'])->name('users.edit');
+        Route::post('/users/{id}', [AdminUsersController::class, 'update'])->name('users.update');
+        Route::post('/users/{id}/toggle-active', [AdminUsersController::class, 'toggleActive'])->name('users.toggle-active');
+        Route::post('/users/{id}/delete', [AdminUsersController::class, 'destroy'])->name('users.destroy');
+        Route::get('/users/{id}/reset-password', [AdminUsersController::class, 'resetPasswordForm'])->name('users.reset-password');
+        Route::post('/users/{id}/reset-password', [AdminUsersController::class, 'resetPassword'])->name('users.reset-password.store');
+
+        Route::get('/roles', [AdminRolesController::class, 'index'])->name('roles.index');
+        Route::get('/roles/create', [AdminRolesController::class, 'create'])->name('roles.create');
+        Route::post('/roles', [AdminRolesController::class, 'store'])->name('roles.store');
+        Route::get('/roles/{id}/edit', [AdminRolesController::class, 'edit'])->name('roles.edit');
+        Route::post('/roles/{id}', [AdminRolesController::class, 'update'])->name('roles.update');
+        Route::post('/roles/{id}/delete', [AdminRolesController::class, 'destroy'])->name('roles.destroy');
+    });
 });
 
 // ---------------- Artist area ----------------

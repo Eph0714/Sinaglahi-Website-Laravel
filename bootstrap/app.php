@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\EnsureIsAdmin;
 use App\Http\Middleware\EnsureIsArtist;
+use App\Http\Middleware\EnsureIsSuperAdmin;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => EnsureIsAdmin::class,
             'artist' => EnsureIsArtist::class,
+            'superadmin' => EnsureIsSuperAdmin::class,
         ]);
 
         $middleware->redirectGuestsTo(fn () => route('account.login'));

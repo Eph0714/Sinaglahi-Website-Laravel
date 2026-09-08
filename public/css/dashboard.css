@@ -322,6 +322,9 @@
 .dashboard-body .form-control:focus, .dashboard-body .form-select:focus { border-color: var(--color-edit); box-shadow: 0 0 0 0.2rem rgba(26, 86, 219, 0.15); }
 .dashboard-body .required-mark::after { content: " *"; color: var(--color-delete); }
 
+/* Highlights a permission checkbox that comes from the admin's assigned role, on the Edit Admin form. */
+.dashboard-body .form-check.permission-from-role { background: var(--color-accent-tint); border-radius: 6px; padding: 0.25rem 0.4rem; margin-left: -0.4rem; }
+
 /* ---------- Modals / alerts (admin) ---------- */
 .dashboard-body .modal-content { border: none; border-radius: var(--dash-radius); box-shadow: var(--dash-shadow-lg); }
 .dashboard-body .modal-header { border-bottom: 1px solid var(--color-border); }

@@ -75,7 +75,15 @@
             <a href="{{ route('admin.pages.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
                 <i class="bi bi-file-earmark-text"></i> Custom Pages
             </a>
-            {{-- Users & Permissions is ported incrementally after this scaffold. --}}
+            @if (auth()->user()->isSuperAdmin())
+                <div class="dashboard-nav-heading">Administration</div>
+                <a href="{{ route('admin.users.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                    <i class="bi bi-person-badge"></i> User Management
+                </a>
+                <a href="{{ route('admin.roles.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
+                    <i class="bi bi-shield-lock"></i> Admin Roles &amp; Permissions
+                </a>
+            @endif
         </nav>
 
         <main class="dashboard-content">
