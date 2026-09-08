@@ -223,6 +223,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/roles/{id}/edit', [AdminRolesController::class, 'edit'])->name('roles.edit');
         Route::post('/roles/{id}', [AdminRolesController::class, 'update'])->name('roles.update');
         Route::post('/roles/{id}/delete', [AdminRolesController::class, 'destroy'])->name('roles.destroy');
+
+        // Force delete (Super Admin only): permanently removes a membership
+        // application and its artworks/notes/status history, regardless of
+        // status. Leaves any already-converted artist/artwork records intact.
+        Route::post('/applications/{id}/delete', [AdminApplicationsController::class, 'destroy'])->name('applications.destroy');
     });
 });
 

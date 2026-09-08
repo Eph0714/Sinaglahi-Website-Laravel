@@ -57,7 +57,16 @@
                         <td>{{ $a->ArtworkCount }}</td>
                         <td>{{ optional($a->SubmittedAt)->format('M j, Y') }}</td>
                         <td><span class="status-badge status-{{ $a->statusCssSlug() }}">{{ $a->statusLabel() }}</span></td>
-                        <td><a class="btn btn-sm btn-outline-brand" href="{{ route('admin.applications.show', $a->Id) }}">View</a></td>
+                        <td class="row-actions">
+                            <a class="btn btn-sm btn-outline-brand" href="{{ route('admin.applications.show', $a->Id) }}">View</a>
+                            @if (auth()->user()->isSuperAdmin())
+                                <form action="{{ route('admin.applications.destroy', $a->Id) }}" method="post" class="d-inline"
+                                      onsubmit="return confirm('This permanently deletes this application and all its artworks, notes, and status history. This action cannot be undone. Are you sure you want to continue?');">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                </form>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

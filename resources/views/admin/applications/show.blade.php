@@ -56,6 +56,13 @@
         @if ($alreadyConverted)
             <a class="btn btn-outline-brand" href="{{ route('admin.artists.show', $app->ConvertedArtistId) }}">View Created Artist Account</a>
         @endif
+        @if (auth()->user()->isSuperAdmin())
+            <form action="{{ route('admin.applications.destroy', $app->Id) }}" method="post"
+                  onsubmit="return confirm('{{ $alreadyConverted ? 'This application was already converted into an artist account, which will NOT be affected. ' : '' }}This permanently deletes this application and all its artworks, notes, and status history. This action cannot be undone. Are you sure you want to continue?');">
+                @csrf
+                <button type="submit" class="btn btn-outline-danger">Force Delete</button>
+            </form>
+        @endif
     </div>
 </div>
 

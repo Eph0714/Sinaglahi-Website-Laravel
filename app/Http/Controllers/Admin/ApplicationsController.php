@@ -232,6 +232,33 @@ class ApplicationsController extends Controller
         return redirect()->route('admin.applications.show', $id);
     }
 
+    /**
+     * Force delete (Super Admin only): permanently removes the application
+     * regardless of status. ApplicationArtworks/Notes/StatusHistory cascade
+     * at the database level; an already-converted Artist/Artwork simply
+     * loses its historical "source application" link (ON DELETE SET NULL)
+     * rather than being blocked or removed.
+     */
+    public function destroy(int $id): RedirectResponse
+    {
+        $app = MembershipApplication::query()->with('artworks')->find($id);
+        if (! $app) {
+            abort(404);
+        }
+
+        $this->fileStorage->deletePrivateImage($app->ProfilePhotoPath);
+        foreach ($app->artworks as $artwork) {
+            $this->fileStorage->deletePrivateImage($artwork->ImagePath);
+            $this->fileStorage->deletePrivateImage($artwork->ThumbnailPath);
+        }
+
+        $applicantName = $app->FullName;
+        $app->delete(); // cascades to ApplicationArtworks/Notes/StatusHistory rows
+
+        return redirect()->route('admin.applications.index')
+            ->with('applicationMessage', "Application from {$applicantName} permanently deleted.");
+    }
+
     public function addNote(Request $request, int $id): RedirectResponse
     {
         $note = trim((string) $request->input('note'));
