@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutController as AdminAboutController;
 use App\Http\Controllers\Admin\ActivitiesController as AdminActivitiesController;
 use App\Http\Controllers\Admin\ActivityCategoriesController as AdminActivityCategoriesController;
 use App\Http\Controllers\Admin\ApplicationsController as AdminApplicationsController;
@@ -135,6 +136,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/applications/{id}/convert-to-artist', [AdminApplicationsController::class, 'convertToArtist'])->name('applications.convert-to-artist');
 
     // ---------------- Website content ----------------
+    Route::get('/about', [AdminAboutController::class, 'index'])->name('about.index');
+    Route::post('/about', [AdminAboutController::class, 'update'])->name('about.update');
+    Route::post('/about/core-values', [AdminAboutController::class, 'storeCoreValue'])->name('about.core-values.store');
+    Route::post('/about/core-values/update', [AdminAboutController::class, 'updateCoreValue'])->name('about.core-values.update');
+    Route::post('/about/core-values/{id}/delete', [AdminAboutController::class, 'destroyCoreValue'])->name('about.core-values.destroy');
+
     Route::get('/settings', [AdminSettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings', [AdminSettingsController::class, 'update'])->name('settings.update');
     Route::post('/settings/delete-logo', [AdminSettingsController::class, 'deleteLogo'])->name('settings.delete-logo');

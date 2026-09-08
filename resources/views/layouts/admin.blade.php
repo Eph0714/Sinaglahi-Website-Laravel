@@ -58,6 +58,9 @@
                 <i class="bi bi-diagram-3"></i> Activity Categories
             </a>
             <div class="dashboard-nav-heading">Website</div>
+            <a href="{{ route('admin.about.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.about.*') ? 'active' : '' }}">
+                <i class="bi bi-info-circle"></i> About Us
+            </a>
             <a href="{{ route('admin.settings.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.settings.index') ? 'active' : '' }}">
                 <i class="bi bi-gear"></i> General Settings &amp; Logo
             </a>
