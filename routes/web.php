@@ -23,6 +23,7 @@ use App\Http\Controllers\Artist\ProfileController as ArtistProfileController;
 use App\Http\Controllers\ArtistsController;
 use App\Http\Controllers\ArtworksController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\GroupActivitiesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JoinController;
@@ -43,6 +44,8 @@ Route::get('/artworks/{slug}', [ArtworksController::class, 'show'])->name('artwo
 
 Route::get('/group-activities', [GroupActivitiesController::class, 'index'])->name('group-activities.index');
 Route::get('/group-activities/{slug}', [GroupActivitiesController::class, 'show'])->name('group-activities.show');
+
+Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 
 // ---------------- Auth ----------------
 Route::get('/account/login', [AuthController::class, 'showLogin'])->name('account.login');
