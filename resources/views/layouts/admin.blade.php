@@ -8,15 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="{{ asset('lib/bootstrap/dist/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/site.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}" />
+    <link rel="stylesheet" href="{{ asset_v('css/dashboard.css') }}" />
 </head>
 <body class="dashboard-body">
     <header class="dashboard-topbar">
         <div class="dashboard-topbar-inner">
+            <button type="button" class="sidebar-toggle d-md-none" data-no-auto-style aria-label="Toggle navigation" aria-expanded="false" aria-controls="dashboardSidebar">
+                <i class="bi bi-list"></i>
+            </button>
             <a class="dashboard-brand" href="{{ route('home') }}">Sinaglahi</a>
-            <span class="dashboard-topbar-title">{{ auth()->user()->isSuperAdmin() ? 'Super-Admin' : 'Admin' }}</span>
+            <span class="dashboard-topbar-title d-none d-sm-inline">{{ auth()->user()->isSuperAdmin() ? 'Super-Admin' : 'Admin' }}</span>
             <div class="ms-auto d-flex align-items-center gap-3">
-                <span class="text-white small">{{ auth()->user()->DisplayName ?? auth()->user()->Email }}</span>
+                <span class="text-white small dashboard-user-email">{{ auth()->user()->DisplayName ?? auth()->user()->Email }}</span>
                 <form action="{{ route('account.logout') }}" method="post" class="m-0">
                     @csrf
                     <button type="submit" class="btn btn-sm btn-outline-light">Log Out</button>
@@ -26,7 +29,8 @@
     </header>
 
     <div class="dashboard-shell">
-        <nav class="dashboard-sidebar">
+        <div class="sidebar-backdrop" data-sidebar-backdrop></div>
+        <nav class="dashboard-sidebar" id="dashboardSidebar">
             <a href="{{ route('admin.dashboard') }}" class="dashboard-nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
@@ -96,6 +100,8 @@
 
     <script src="{{ asset('lib/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('lib/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset_v('js/admin-ui-enhance.js') }}"></script>
+    <script src="{{ asset_v('js/sidebar-toggle.js') }}"></script>
     @stack('scripts')
 </body>
 </html>

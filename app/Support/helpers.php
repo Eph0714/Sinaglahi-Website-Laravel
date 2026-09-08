@@ -20,3 +20,18 @@ if (! function_exists('placeholder_image')) {
         return 'data:image/svg+xml;base64,'.base64_encode($svg);
     }
 }
+
+if (! function_exists('asset_v')) {
+    /**
+     * asset() with a filemtime-based cache-busting query string, so an edited
+     * CSS/JS file gets a new URL automatically instead of serving stale
+     * content from the browser or an upstream CDN's static-asset cache.
+     */
+    function asset_v(string $path): string
+    {
+        $fullPath = public_path(ltrim($path, '/'));
+        $version = is_file($fullPath) ? filemtime($fullPath) : time();
+
+        return asset($path).'?v='.$version;
+    }
+}

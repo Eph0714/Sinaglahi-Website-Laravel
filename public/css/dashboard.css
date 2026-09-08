@@ -62,6 +62,15 @@
 }
 .dashboard-topbar a.small { color: #d8d2c6; }
 .dashboard-topbar a.small:hover { color: #fff; }
+.dashboard-user-email {
+  max-width: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (max-width: 420px) {
+  .dashboard-user-email { max-width: 6rem; }
+}
 
 .dashboard-shell {
   display: flex;
@@ -304,6 +313,11 @@
 
 .btn:disabled, .btn.disabled { opacity: 0.6; cursor: not-allowed; }
 
+/* Guarantees every admin button stays a comfortable, readable tap target -
+   never compressed down to fit, even inside a cramped table action cell. */
+.dashboard-body .btn { min-height: 2.25rem; }
+.dashboard-body .btn-sm { min-height: 1.9rem; padding-left: 0.65rem; padding-right: 0.65rem; }
+
 /* Section 5: exactly one prominent (yellow) primary action per view - never
    every button competing for attention. Opt a single CTA into it explicitly. */
 .btn-primary-action {
@@ -386,9 +400,52 @@
   cursor: pointer;
 }
 
+.sidebar-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1.35rem;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.sidebar-toggle:hover { background: rgba(255, 255, 255, 0.1); }
+.sidebar-backdrop { display: none; }
+
 @media (max-width: 900px) {
-  .dashboard-shell { flex-direction: column; }
-  .dashboard-sidebar { width: 100%; flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--color-border); }
+  .dashboard-shell { position: relative; }
+  .sidebar-toggle { display: inline-flex; }
+
+  /* Off-canvas: the full nav slides in from the left over the content
+     instead of squeezing into a horizontally-scrolling strip - keeps every
+     module reachable through one simple, ordinary vertical list. */
+  .dashboard-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1050;
+    width: 280px;
+    max-width: 85vw;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    box-shadow: var(--dash-shadow-lg);
+  }
+  .dashboard-sidebar.is-open { transform: translateX(0); }
+
+  .sidebar-backdrop.is-visible {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1040;
+  }
+
   .dashboard-content { padding: 1.25rem; }
   .dash-table { display: block; overflow-x: auto; }
 }
