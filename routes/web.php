@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\ArtistsController as AdminArtistsController;
 use App\Http\Controllers\Admin\ArtMediumsController as AdminArtMediumsController;
+use App\Http\Controllers\Admin\ArtworksController as AdminArtworksController;
 use App\Http\Controllers\Admin\CategoriesController as AdminCategoriesController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Artist\ArtworksController as ArtistArtworksController;
@@ -47,6 +49,32 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/art-mediums/{id}/toggle', [AdminArtMediumsController::class, 'toggleActive'])->name('art-mediums.toggle');
     Route::post('/art-mediums/{id}/move', [AdminArtMediumsController::class, 'move'])->name('art-mediums.move');
     Route::post('/art-mediums/{id}/delete', [AdminArtMediumsController::class, 'destroy'])->name('art-mediums.destroy');
+
+    Route::get('/artists', [AdminArtistsController::class, 'index'])->name('artists.index');
+    Route::get('/artists/create', [AdminArtistsController::class, 'create'])->name('artists.create');
+    Route::post('/artists', [AdminArtistsController::class, 'store'])->name('artists.store');
+    Route::get('/artists/{id}', [AdminArtistsController::class, 'show'])->name('artists.show');
+    Route::get('/artists/{id}/edit', [AdminArtistsController::class, 'edit'])->name('artists.edit');
+    Route::post('/artists/{id}', [AdminArtistsController::class, 'update'])->name('artists.update');
+    Route::post('/artists/{id}/approve', [AdminArtistsController::class, 'approve'])->name('artists.approve');
+    Route::post('/artists/{id}/reject', [AdminArtistsController::class, 'reject'])->name('artists.reject');
+    Route::post('/artists/{id}/activate', [AdminArtistsController::class, 'activate'])->name('artists.activate');
+    Route::post('/artists/{id}/deactivate', [AdminArtistsController::class, 'deactivate'])->name('artists.deactivate');
+    Route::post('/artists/{id}/toggle-featured', [AdminArtistsController::class, 'toggleFeatured'])->name('artists.toggle-featured');
+    Route::post('/artists/{id}/delete', [AdminArtistsController::class, 'destroy'])->name('artists.destroy');
+
+    Route::get('/artworks', [AdminArtworksController::class, 'index'])->name('artworks.index');
+    Route::get('/artworks/create', [AdminArtworksController::class, 'create'])->name('artworks.create');
+    Route::post('/artworks', [AdminArtworksController::class, 'store'])->name('artworks.store');
+    Route::get('/artworks/{id}', [AdminArtworksController::class, 'show'])->name('artworks.show');
+    Route::get('/artworks/{id}/edit', [AdminArtworksController::class, 'edit'])->name('artworks.edit');
+    Route::post('/artworks/{id}', [AdminArtworksController::class, 'update'])->name('artworks.update');
+    Route::post('/artworks/{id}/approve', [AdminArtworksController::class, 'approve'])->name('artworks.approve');
+    Route::post('/artworks/{id}/reject', [AdminArtworksController::class, 'reject'])->name('artworks.reject');
+    Route::post('/artworks/{id}/publish', [AdminArtworksController::class, 'publish'])->name('artworks.publish');
+    Route::post('/artworks/{id}/unpublish', [AdminArtworksController::class, 'unpublish'])->name('artworks.unpublish');
+    Route::post('/artworks/{id}/toggle-featured', [AdminArtworksController::class, 'toggleFeatured'])->name('artworks.toggle-featured');
+    Route::post('/artworks/{id}/delete', [AdminArtworksController::class, 'destroy'])->name('artworks.destroy');
 });
 
 // ---------------- Artist area ----------------

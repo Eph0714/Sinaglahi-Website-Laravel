@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Artist extends Model
@@ -36,6 +37,21 @@ class Artist extends Model
             'CreatedAt' => 'datetime',
             'UpdatedAt' => 'datetime',
         ];
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(AspNetUser::class, 'UserId', 'Id');
+    }
+
+    public function statusLabel(): string
+    {
+        return match ((int) $this->AccountStatus) {
+            self::STATUS_ACTIVE => 'Active',
+            self::STATUS_INACTIVE => 'Inactive',
+            self::STATUS_REJECTED => 'Rejected',
+            default => 'Pending',
+        };
     }
 
     public function artworks(): HasMany

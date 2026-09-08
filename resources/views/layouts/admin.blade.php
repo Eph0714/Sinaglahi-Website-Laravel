@@ -30,6 +30,13 @@
             <a href="{{ route('admin.dashboard') }}" class="dashboard-nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
+            <div class="dashboard-nav-heading">Members &amp; Artworks</div>
+            <a href="{{ route('admin.artists.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.artists.*') ? 'active' : '' }}">
+                <i class="bi bi-people"></i> Artists
+            </a>
+            <a href="{{ route('admin.artworks.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.artworks.*') ? 'active' : '' }}">
+                <i class="bi bi-images"></i> Artworks
+            </a>
             <div class="dashboard-nav-heading">Catalog</div>
             <a href="{{ route('admin.categories.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                 <i class="bi bi-tags"></i> Artwork Categories
