@@ -37,6 +37,9 @@
             <a href="{{ route('admin.artworks.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.artworks.*') ? 'active' : '' }}">
                 <i class="bi bi-images"></i> Artworks
             </a>
+            <a href="{{ route('admin.activities.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.activities.*') ? 'active' : '' }}">
+                <i class="bi bi-calendar-event"></i> Group Activities
+            </a>
             <div class="dashboard-nav-heading">Catalog</div>
             <a href="{{ route('admin.categories.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                 <i class="bi bi-tags"></i> Artwork Categories

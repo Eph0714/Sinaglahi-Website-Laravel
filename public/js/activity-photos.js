@@ -10,7 +10,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         var activityId = window.__activityId;
         var token = window.__antiforgeryToken;
-        var baseUrl = "/Admin/Activities";
+        var baseUrl = "/admin/activities";
 
         function toast(message, isError) {
             // Minimal one-off toast, styled like the layout's Bootstrap toasts,
@@ -64,9 +64,9 @@
                 if (pendingFiles.length === 0) return;
 
                 var formData = new FormData();
-                formData.append("__RequestVerificationToken", token);
+                formData.append("_token", token);
                 formData.append("id", activityId);
-                pendingFiles.forEach(function (f) { formData.append("files", f); });
+                pendingFiles.forEach(function (f) { formData.append("files[]", f); });
 
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", baseUrl + "/UploadPhotos", true);
@@ -147,7 +147,7 @@
                     .map(function (t) { return t.getAttribute("data-photo-id"); });
 
                 var formData = new FormData();
-                formData.append("__RequestVerificationToken", token);
+                formData.append("_token", token);
                 formData.append("id", activityId);
                 ids.forEach(function (id) { formData.append("orderedPhotoIds", id); });
 
@@ -167,7 +167,7 @@
             var descInput = document.querySelector('.photo-description-input[data-photo-id="' + photoId + '"]');
 
             var formData = new FormData();
-            formData.append("__RequestVerificationToken", token);
+            formData.append("_token", token);
             formData.append("id", activityId);
             formData.append("photoId", photoId);
             formData.append("caption", captionInput ? captionInput.value : "");
@@ -199,7 +199,7 @@
         document.querySelectorAll(".photo-manage-cover-btn").forEach(function (btn) {
             btn.addEventListener("click", function () {
                 var formData = new FormData();
-                formData.append("__RequestVerificationToken", token);
+                formData.append("_token", token);
                 formData.append("id", activityId);
                 formData.append("photoId", btn.getAttribute("data-photo-id"));
 
@@ -224,7 +224,7 @@
                 var photoId = input.getAttribute("data-photo-id");
 
                 var formData = new FormData();
-                formData.append("__RequestVerificationToken", token);
+                formData.append("_token", token);
                 formData.append("id", activityId);
                 formData.append("photoId", photoId);
                 formData.append("file", input.files[0]);
@@ -257,7 +257,7 @@
                 if (!confirm("Delete this photo? This cannot be undone.")) return;
 
                 var formData = new FormData();
-                formData.append("__RequestVerificationToken", token);
+                formData.append("_token", token);
                 formData.append("id", activityId);
                 formData.append("photoId", btn.getAttribute("data-photo-id"));
 
@@ -292,7 +292,7 @@
                 if (!confirm("Delete " + ids.length + " selected photo(s)? This cannot be undone.")) return;
 
                 var formData = new FormData();
-                formData.append("__RequestVerificationToken", token);
+                formData.append("_token", token);
                 formData.append("id", activityId);
                 ids.forEach(function (id) { formData.append("photoIds", id); });
 

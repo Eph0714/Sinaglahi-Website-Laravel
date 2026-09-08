@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivitiesController as AdminActivitiesController;
 use App\Http\Controllers\Admin\ArtistsController as AdminArtistsController;
 use App\Http\Controllers\Admin\ArtMediumsController as AdminArtMediumsController;
 use App\Http\Controllers\Admin\ArtworksController as AdminArtworksController;
@@ -75,6 +76,29 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/artworks/{id}/unpublish', [AdminArtworksController::class, 'unpublish'])->name('artworks.unpublish');
     Route::post('/artworks/{id}/toggle-featured', [AdminArtworksController::class, 'toggleFeatured'])->name('artworks.toggle-featured');
     Route::post('/artworks/{id}/delete', [AdminArtworksController::class, 'destroy'])->name('artworks.destroy');
+
+    // Activity photo AJAX endpoints (activity-photos.js) - flat paths, id/photoId
+    // read from the request body, matching the pre-built JS's fetch/XHR calls.
+    Route::post('/activities/UploadPhotos', [AdminActivitiesController::class, 'uploadPhotos'])->name('activities.upload-photos');
+    Route::post('/activities/SetCoverPhoto', [AdminActivitiesController::class, 'setCoverPhoto'])->name('activities.set-cover-photo');
+    Route::post('/activities/UpdateCaption', [AdminActivitiesController::class, 'updateCaption'])->name('activities.update-caption');
+    Route::post('/activities/ReplacePhoto', [AdminActivitiesController::class, 'replacePhoto'])->name('activities.replace-photo');
+    Route::post('/activities/ReorderPhotos', [AdminActivitiesController::class, 'reorderPhotos'])->name('activities.reorder-photos');
+    Route::post('/activities/DeletePhoto', [AdminActivitiesController::class, 'deletePhoto'])->name('activities.delete-photo');
+    Route::post('/activities/BulkDeletePhotos', [AdminActivitiesController::class, 'bulkDeletePhotos'])->name('activities.bulk-delete-photos');
+
+    Route::get('/activities', [AdminActivitiesController::class, 'index'])->name('activities.index');
+    Route::get('/activities/create', [AdminActivitiesController::class, 'create'])->name('activities.create');
+    Route::post('/activities', [AdminActivitiesController::class, 'store'])->name('activities.store');
+    Route::get('/activities/{id}/edit', [AdminActivitiesController::class, 'edit'])->name('activities.edit');
+    Route::post('/activities/{id}', [AdminActivitiesController::class, 'update'])->name('activities.update');
+    Route::post('/activities/{id}/publish', [AdminActivitiesController::class, 'publish'])->name('activities.publish');
+    Route::post('/activities/{id}/unpublish', [AdminActivitiesController::class, 'unpublish'])->name('activities.unpublish');
+    Route::post('/activities/{id}/toggle-featured', [AdminActivitiesController::class, 'toggleFeatured'])->name('activities.toggle-featured');
+    Route::post('/activities/{id}/delete', [AdminActivitiesController::class, 'destroy'])->name('activities.destroy');
+    Route::get('/activities/{id}/manage-photos', [AdminActivitiesController::class, 'managePhotos'])->name('activities.manage-photos');
+    Route::post('/activities/{id}/hide-photo/{photoId}', [AdminActivitiesController::class, 'hidePhoto'])->name('activities.hide-photo');
+    Route::post('/activities/{id}/unhide-photo/{photoId}', [AdminActivitiesController::class, 'unhidePhoto'])->name('activities.unhide-photo');
 });
 
 // ---------------- Artist area ----------------
