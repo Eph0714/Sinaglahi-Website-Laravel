@@ -14,6 +14,7 @@ use App\Http\Controllers\ArtworksController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupActivitiesController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JoinController;
 use App\Http\Controllers\PlaceholderController;
 use Illuminate\Support\Facades\Route;
 
@@ -118,6 +119,26 @@ Route::middleware(['auth', 'artist'])->prefix('artist')->name('artist.')->group(
     Route::post('/artworks/{id}/delete', [ArtistArtworksController::class, 'destroy'])->name('artworks.destroy');
 });
 
-// Phase 2 continues: the Join wizard is not ported yet.
-Route::get('/join', [PlaceholderController::class, 'comingSoon'])->name('join.index');
-Route::get('/join/check-status', [PlaceholderController::class, 'comingSoon'])->name('join.checkStatus');
+// ---------------- Join application wizard ----------------
+Route::get('/join', [JoinController::class, 'index'])->name('join.index');
+Route::post('/join/start', [JoinController::class, 'start'])->name('join.start');
+
+Route::get('/join/personal-info', [JoinController::class, 'personalInfo'])->name('join.personal-info');
+Route::post('/join/personal-info', [JoinController::class, 'personalInfoStore'])->name('join.personal-info.store');
+Route::get('/join/personal-info-photo', [JoinController::class, 'personalInfoPhoto'])->name('join.personal-info-photo');
+
+Route::get('/join/art-background', [JoinController::class, 'artBackground'])->name('join.art-background');
+Route::post('/join/art-background', [JoinController::class, 'artBackgroundStore'])->name('join.art-background.store');
+
+Route::get('/join/artworks', [JoinController::class, 'artworks'])->name('join.artworks');
+Route::post('/join/artworks', [JoinController::class, 'addArtwork'])->name('join.add-artwork');
+Route::post('/join/artworks/{id}/remove', [JoinController::class, 'removeArtwork'])->name('join.remove-artwork');
+Route::get('/join/artworks/{id}/image', [JoinController::class, 'artworkImage'])->name('join.artwork-image');
+
+Route::get('/join/consent', [JoinController::class, 'consent'])->name('join.consent');
+Route::post('/join/submit', [JoinController::class, 'submit'])->name('join.submit');
+Route::get('/join/confirmation', [JoinController::class, 'confirmation'])->name('join.confirmation');
+
+Route::get('/join/check-status', [JoinController::class, 'checkStatus'])->name('join.checkStatus');
+Route::post('/join/check-status', [JoinController::class, 'checkStatusSubmit'])->name('join.checkStatus.submit');
+Route::post('/join/edit-application', [JoinController::class, 'editApplication'])->name('join.edit-application');

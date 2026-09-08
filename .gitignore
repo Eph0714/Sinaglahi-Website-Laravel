@@ -23,6 +23,8 @@
 /public/storage
 /storage/*.key
 /storage/pail
+# Private uploads (Join wizard drafts, application artwork/photos) - never committed.
+/storage/app/private-uploads
 /vendor
 _ide_helper.php
 Homestead.json

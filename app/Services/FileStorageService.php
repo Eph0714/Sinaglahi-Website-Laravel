@@ -21,12 +21,113 @@ class FileStorageService
 
     private string $publicRoot;
 
+    private string $privateRoot;
+
     public function __construct()
     {
         $this->publicRoot = public_path('uploads');
         if (! is_dir($this->publicRoot)) {
             mkdir($this->publicRoot, 0755, true);
         }
+
+        // Outside the public web root, mirroring the .NET app's PrivateUploads
+        // folder - callers stream these back through an authorized action
+        // rather than exposing a direct URL (Join wizard drafts, application
+        // artwork submissions).
+        $this->privateRoot = storage_path('app/private-uploads');
+        if (! is_dir($this->privateRoot)) {
+            mkdir($this->privateRoot, 0755, true);
+        }
+    }
+
+    /** Saves a private application-artwork/profile-photo image, scoped by application id. */
+    public function saveApplicationArtworkImage(UploadedFile $file, int $applicationId): ImageUploadResult
+    {
+        $validation = $this->validateAndDecode($file);
+        if (! $validation['ok']) {
+            return ImageUploadResult::fail($validation['error']);
+        }
+
+        $folder = $this->privateRoot.DIRECTORY_SEPARATOR.'applications'.DIRECTORY_SEPARATOR.$applicationId;
+        if (! is_dir($folder)) {
+            mkdir($folder, 0755, true);
+        }
+
+        $fileName = $this->randomName($validation['extension']);
+        $thumbName = $this->randomName('jpg', '_thumb');
+        $fullPath = $folder.DIRECTORY_SEPARATOR.$fileName;
+        $thumbPath = $folder.DIRECTORY_SEPARATOR.$thumbName;
+
+        $this->writeImage($validation['image'], $validation['extension'], $fullPath);
+
+        $thumb = $this->resize($validation['image'], 400, 400);
+        $this->writeImage($thumb, 'jpg', $thumbPath, 88);
+        imagedestroy($thumb);
+        imagedestroy($validation['image']);
+
+        $relative = "applications/{$applicationId}/{$fileName}";
+        $relativeThumb = "applications/{$applicationId}/{$thumbName}";
+
+        return ImageUploadResult::ok($relative, $relativeThumb);
+    }
+
+    /** Reads back a previously stored private image as raw bytes + content type. */
+    public function readPrivateImage(?string $storedPath): ?array
+    {
+        $fullPath = $this->resolvePrivatePath($storedPath);
+        if ($fullPath === null || ! is_file($fullPath)) {
+            return null;
+        }
+
+        $contentType = match (mb_strtolower(pathinfo($fullPath, PATHINFO_EXTENSION))) {
+            'png' => 'image/png',
+            'webp' => 'image/webp',
+            default => 'image/jpeg',
+        };
+
+        return ['bytes' => file_get_contents($fullPath), 'contentType' => $contentType];
+    }
+
+    /** Copies a private image out to public storage (e.g. approved application -> real Artist/Artwork). */
+    public function publishPrivateImage(?string $privateStoredPath, string $subfolder): ?string
+    {
+        $sourcePath = $this->resolvePrivatePath($privateStoredPath);
+        if ($sourcePath === null || ! is_file($sourcePath)) {
+            return null;
+        }
+
+        $folder = $this->ensureFolder($subfolder);
+        $ext = pathinfo($sourcePath, PATHINFO_EXTENSION);
+        $fileName = bin2hex(random_bytes(16)).'.'.$ext;
+        $destPath = $folder.DIRECTORY_SEPARATOR.$fileName;
+
+        copy($sourcePath, $destPath);
+
+        return "/uploads/{$subfolder}/{$fileName}";
+    }
+
+    public function deletePrivateImage(?string $storedPath): void
+    {
+        $fullPath = $this->resolvePrivatePath($storedPath);
+        if ($fullPath !== null && is_file($fullPath)) {
+            @unlink($fullPath);
+        }
+    }
+
+    private function resolvePrivatePath(?string $storedPath): ?string
+    {
+        if (! $storedPath) {
+            return null;
+        }
+
+        $combined = realpath($this->privateRoot).DIRECTORY_SEPARATOR.str_replace('/', DIRECTORY_SEPARATOR, $storedPath);
+        $root = realpath($this->privateRoot);
+        $resolvedDir = realpath(dirname($combined));
+        if ($resolvedDir === false || ! str_starts_with($resolvedDir, $root)) {
+            return null;
+        }
+
+        return $combined;
     }
 
     /** Saves a public-facing image (artist profile photo, artwork, etc.) under public/uploads/{subfolder}. */
