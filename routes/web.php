@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ArtMediumsController as AdminArtMediumsController;
+use App\Http\Controllers\Admin\CategoriesController as AdminCategoriesController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Artist\ArtworksController as ArtistArtworksController;
 use App\Http\Controllers\Artist\DashboardController as ArtistDashboardController;
@@ -35,6 +37,16 @@ Route::get('/account/register', [PlaceholderController::class, 'comingSoon'])->n
 // ---------------- Admin area ----------------
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/categories', [AdminCategoriesController::class, 'index'])->name('categories.index');
+    Route::post('/categories/{id}/toggle', [AdminCategoriesController::class, 'toggleActive'])->name('categories.toggle');
+
+    Route::get('/art-mediums', [AdminArtMediumsController::class, 'index'])->name('art-mediums.index');
+    Route::post('/art-mediums', [AdminArtMediumsController::class, 'store'])->name('art-mediums.store');
+    Route::post('/art-mediums/update', [AdminArtMediumsController::class, 'update'])->name('art-mediums.update');
+    Route::post('/art-mediums/{id}/toggle', [AdminArtMediumsController::class, 'toggleActive'])->name('art-mediums.toggle');
+    Route::post('/art-mediums/{id}/move', [AdminArtMediumsController::class, 'move'])->name('art-mediums.move');
+    Route::post('/art-mediums/{id}/delete', [AdminArtMediumsController::class, 'destroy'])->name('art-mediums.destroy');
 });
 
 // ---------------- Artist area ----------------
