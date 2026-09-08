@@ -106,8 +106,8 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="thumb-wrap" style="border-radius: var(--radius); overflow:hidden; aspect-ratio: 16/10;">
-                    <img src="{{ $about->FeaturedImagePath ?? placeholder_image(800, 500, 'Sinaglahi') }}" alt="Sinaglahi community" class="w-100 h-100" style="object-fit:cover;" />
+                <div class="thumb-wrap" style="border-radius: var(--radius); overflow:hidden;">
+                    <img src="{{ $about->FeaturedImagePath ?? placeholder_image(800, 500, 'Sinaglahi') }}" alt="Sinaglahi community" class="w-100" style="display:block; height:auto;" />
                 </div>
             </div>
         </div>
