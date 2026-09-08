@@ -202,12 +202,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/users', [AdminUsersController::class, 'index'])->name('users.index');
         Route::get('/users/create', [AdminUsersController::class, 'create'])->name('users.create');
         Route::post('/users', [AdminUsersController::class, 'store'])->name('users.store');
-        Route::get('/users/{id}/edit', [AdminUsersController::class, 'edit'])->name('users.edit');
-        Route::post('/users/{id}', [AdminUsersController::class, 'update'])->name('users.update');
-        Route::post('/users/{id}/toggle-active', [AdminUsersController::class, 'toggleActive'])->name('users.toggle-active');
-        Route::post('/users/{id}/delete', [AdminUsersController::class, 'destroy'])->name('users.destroy');
-        Route::get('/users/{id}/reset-password', [AdminUsersController::class, 'resetPasswordForm'])->name('users.reset-password');
-        Route::post('/users/{id}/reset-password', [AdminUsersController::class, 'resetPassword'])->name('users.reset-password.store');
+
+        // AspNetUser keys on a GUID, not the auto-increment int the app-wide
+        // {id} pattern (AppServiceProvider::boot) expects - override it here.
+        Route::where(['id' => '[0-9a-fA-F-]{36}'])->group(function () {
+            Route::get('/users/{id}/edit', [AdminUsersController::class, 'edit'])->name('users.edit');
+            Route::post('/users/{id}', [AdminUsersController::class, 'update'])->name('users.update');
+            Route::post('/users/{id}/toggle-active', [AdminUsersController::class, 'toggleActive'])->name('users.toggle-active');
+            Route::post('/users/{id}/delete', [AdminUsersController::class, 'destroy'])->name('users.destroy');
+            Route::get('/users/{id}/reset-password', [AdminUsersController::class, 'resetPasswordForm'])->name('users.reset-password');
+            Route::post('/users/{id}/reset-password', [AdminUsersController::class, 'resetPassword'])->name('users.reset-password.store');
+        });
 
         Route::get('/roles', [AdminRolesController::class, 'index'])->name('roles.index');
         Route::get('/roles/create', [AdminRolesController::class, 'create'])->name('roles.create');
