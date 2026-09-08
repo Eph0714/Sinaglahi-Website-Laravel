@@ -66,8 +66,16 @@
             <a href="{{ route('admin.testimonials.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.testimonials.*') ? 'active' : '' }}">
                 <i class="bi bi-chat-quote"></i> Testimonials
             </a>
-            {{-- Navigation Menu, FAQ, and Pages, plus Users & Permissions, are
-                 ported incrementally after this scaffold. --}}
+            <a href="{{ route('admin.navigation.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.navigation.*') ? 'active' : '' }}">
+                <i class="bi bi-list"></i> Navigation Menu
+            </a>
+            <a href="{{ route('admin.faq.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.faq.*') ? 'active' : '' }}">
+                <i class="bi bi-question-circle"></i> FAQ
+            </a>
+            <a href="{{ route('admin.pages.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
+                <i class="bi bi-file-earmark-text"></i> Custom Pages
+            </a>
+            {{-- Users & Permissions is ported incrementally after this scaffold. --}}
         </nav>
 
         <main class="dashboard-content">

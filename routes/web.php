@@ -8,6 +8,9 @@ use App\Http\Controllers\Admin\ArtworksController as AdminArtworksController;
 use App\Http\Controllers\Admin\BannersController as AdminBannersController;
 use App\Http\Controllers\Admin\CategoriesController as AdminCategoriesController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\FaqController as AdminFaqController;
+use App\Http\Controllers\Admin\NavigationController as AdminNavigationController;
+use App\Http\Controllers\Admin\PagesController as AdminPagesController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\TestimonialsController as AdminTestimonialsController;
 use App\Http\Controllers\Admin\WhyJoinController as AdminWhyJoinController;
@@ -20,6 +23,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupActivitiesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JoinController;
+use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PlaceholderController;
 use Illuminate\Support\Facades\Route;
 
@@ -161,6 +165,26 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/why-join/photos/{id}/toggle', [AdminWhyJoinController::class, 'toggleActivePhoto'])->name('why-join.photos.toggle');
     Route::post('/why-join/photos/{id}/move', [AdminWhyJoinController::class, 'movePhoto'])->name('why-join.photos.move');
     Route::post('/why-join/photos/{id}/delete', [AdminWhyJoinController::class, 'destroyPhoto'])->name('why-join.photos.destroy');
+
+    Route::get('/navigation', [AdminNavigationController::class, 'index'])->name('navigation.index');
+    Route::post('/navigation', [AdminNavigationController::class, 'store'])->name('navigation.store');
+    Route::post('/navigation/update', [AdminNavigationController::class, 'update'])->name('navigation.update');
+    Route::post('/navigation/{id}/toggle', [AdminNavigationController::class, 'toggleActive'])->name('navigation.toggle');
+    Route::post('/navigation/{id}/delete', [AdminNavigationController::class, 'destroy'])->name('navigation.destroy');
+
+    Route::get('/faq', [AdminFaqController::class, 'index'])->name('faq.index');
+    Route::post('/faq', [AdminFaqController::class, 'store'])->name('faq.store');
+    Route::post('/faq/update', [AdminFaqController::class, 'update'])->name('faq.update');
+    Route::post('/faq/{id}/toggle', [AdminFaqController::class, 'togglePublished'])->name('faq.toggle');
+    Route::post('/faq/{id}/delete', [AdminFaqController::class, 'destroy'])->name('faq.destroy');
+
+    Route::get('/pages', [AdminPagesController::class, 'index'])->name('pages.index');
+    Route::get('/pages/create', [AdminPagesController::class, 'create'])->name('pages.create');
+    Route::post('/pages', [AdminPagesController::class, 'store'])->name('pages.store');
+    Route::get('/pages/{id}/edit', [AdminPagesController::class, 'edit'])->name('pages.edit');
+    Route::post('/pages/{id}', [AdminPagesController::class, 'update'])->name('pages.update');
+    Route::post('/pages/{id}/toggle', [AdminPagesController::class, 'togglePublished'])->name('pages.toggle');
+    Route::post('/pages/{id}/delete', [AdminPagesController::class, 'destroy'])->name('pages.destroy');
 });
 
 // ---------------- Artist area ----------------
@@ -203,3 +227,6 @@ Route::get('/join/confirmation', [JoinController::class, 'confirmation'])->name(
 Route::get('/join/check-status', [JoinController::class, 'checkStatus'])->name('join.checkStatus');
 Route::post('/join/check-status', [JoinController::class, 'checkStatusSubmit'])->name('join.checkStatus.submit');
 Route::post('/join/edit-application', [JoinController::class, 'editApplication'])->name('join.edit-application');
+
+// ---------------- Custom pages (must stay last: catch-all-ish slug) ----------------
+Route::get('/pages/{slug}', [PagesController::class, 'show'])->name('pages.show');
