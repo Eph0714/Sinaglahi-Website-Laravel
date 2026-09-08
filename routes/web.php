@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ActivitiesController as AdminActivitiesController;
+use App\Http\Controllers\Admin\ApplicationsController as AdminApplicationsController;
 use App\Http\Controllers\Admin\ArtistsController as AdminArtistsController;
 use App\Http\Controllers\Admin\ArtMediumsController as AdminArtMediumsController;
 use App\Http\Controllers\Admin\ArtworksController as AdminArtworksController;
@@ -100,6 +101,18 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/activities/{id}/manage-photos', [AdminActivitiesController::class, 'managePhotos'])->name('activities.manage-photos');
     Route::post('/activities/{id}/hide-photo/{photoId}', [AdminActivitiesController::class, 'hidePhoto'])->name('activities.hide-photo');
     Route::post('/activities/{id}/unhide-photo/{photoId}', [AdminActivitiesController::class, 'unhidePhoto'])->name('activities.unhide-photo');
+
+    Route::get('/applications', [AdminApplicationsController::class, 'index'])->name('applications.index');
+    Route::get('/applications/{id}', [AdminApplicationsController::class, 'show'])->name('applications.show');
+    Route::get('/applications/{id}/profile-photo', [AdminApplicationsController::class, 'profilePhoto'])->name('applications.profile-photo');
+    Route::get('/applications/artwork-image/{id}', [AdminApplicationsController::class, 'artworkImage'])->name('applications.artwork-image');
+    Route::post('/applications/{id}/mark-under-review', [AdminApplicationsController::class, 'markUnderReview'])->name('applications.mark-under-review');
+    Route::post('/applications/{id}/request-info', [AdminApplicationsController::class, 'requestInfo'])->name('applications.request-info');
+    Route::post('/applications/{id}/approve', [AdminApplicationsController::class, 'approve'])->name('applications.approve');
+    Route::post('/applications/{id}/reject', [AdminApplicationsController::class, 'reject'])->name('applications.reject');
+    Route::post('/applications/{id}/archive', [AdminApplicationsController::class, 'archive'])->name('applications.archive');
+    Route::post('/applications/{id}/add-note', [AdminApplicationsController::class, 'addNote'])->name('applications.add-note');
+    Route::post('/applications/{id}/convert-to-artist', [AdminApplicationsController::class, 'convertToArtist'])->name('applications.convert-to-artist');
 });
 
 // ---------------- Artist area ----------------

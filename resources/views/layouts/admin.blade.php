@@ -40,6 +40,9 @@
             <a href="{{ route('admin.activities.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.activities.*') ? 'active' : '' }}">
                 <i class="bi bi-calendar-event"></i> Group Activities
             </a>
+            <a href="{{ route('admin.applications.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.applications.*') ? 'active' : '' }}">
+                <i class="bi bi-file-earmark-text"></i> Membership Applications
+            </a>
             <div class="dashboard-nav-heading">Catalog</div>
             <a href="{{ route('admin.categories.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                 <i class="bi bi-tags"></i> Artwork Categories

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\ApplicationStatusPresentation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -64,5 +65,16 @@ class MembershipApplication extends Model
     public function statusHistory(): HasMany
     {
         return $this->hasMany(ApplicationStatusHistory::class, 'MembershipApplicationId', 'Id')->orderBy('ChangedAt');
+    }
+
+    public function statusLabel(): string
+    {
+        return ApplicationStatusPresentation::label((int) $this->Status);
+    }
+
+    /** CSS-class-safe version of the label (no spaces), e.g. "Under Review" -> "underreview". */
+    public function statusCssSlug(): string
+    {
+        return str_replace(' ', '', mb_strtolower($this->statusLabel()));
     }
 }
