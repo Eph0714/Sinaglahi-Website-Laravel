@@ -66,6 +66,21 @@ class AspNetUser extends Model implements Authenticatable
         return 'Id';
     }
 
+    // The aspnetusers table (ASP.NET Identity's schema) has no remember_token
+    // column, so "Remember me" must be a no-op rather than crash the login -
+    // returning null/empty here tells the auth guard to skip persisting one.
+    public function getRememberToken(): ?string
+    {
+        return null;
+    }
+
+    public function setRememberToken($value): void {}
+
+    public function getRememberTokenName(): ?string
+    {
+        return null;
+    }
+
     // ---- Relationships ----
 
     public function roles(): BelongsToMany
