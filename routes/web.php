@@ -5,8 +5,12 @@ use App\Http\Controllers\Admin\ApplicationsController as AdminApplicationsContro
 use App\Http\Controllers\Admin\ArtistsController as AdminArtistsController;
 use App\Http\Controllers\Admin\ArtMediumsController as AdminArtMediumsController;
 use App\Http\Controllers\Admin\ArtworksController as AdminArtworksController;
+use App\Http\Controllers\Admin\BannersController as AdminBannersController;
 use App\Http\Controllers\Admin\CategoriesController as AdminCategoriesController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
+use App\Http\Controllers\Admin\TestimonialsController as AdminTestimonialsController;
+use App\Http\Controllers\Admin\WhyJoinController as AdminWhyJoinController;
 use App\Http\Controllers\Artist\ArtworksController as ArtistArtworksController;
 use App\Http\Controllers\Artist\DashboardController as ArtistDashboardController;
 use App\Http\Controllers\Artist\ProfileController as ArtistProfileController;
@@ -113,6 +117,50 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/applications/{id}/archive', [AdminApplicationsController::class, 'archive'])->name('applications.archive');
     Route::post('/applications/{id}/add-note', [AdminApplicationsController::class, 'addNote'])->name('applications.add-note');
     Route::post('/applications/{id}/convert-to-artist', [AdminApplicationsController::class, 'convertToArtist'])->name('applications.convert-to-artist');
+
+    // ---------------- Website content ----------------
+    Route::get('/settings', [AdminSettingsController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [AdminSettingsController::class, 'update'])->name('settings.update');
+    Route::post('/settings/delete-logo', [AdminSettingsController::class, 'deleteLogo'])->name('settings.delete-logo');
+    Route::get('/settings/social-links', [AdminSettingsController::class, 'socialLinks'])->name('settings.social-links');
+    Route::post('/settings/social-links', [AdminSettingsController::class, 'createSocialLink'])->name('settings.social-links.store');
+    Route::post('/settings/social-links/update', [AdminSettingsController::class, 'updateSocialLink'])->name('settings.social-links.update');
+    Route::post('/settings/social-links/{id}/delete', [AdminSettingsController::class, 'destroySocialLink'])->name('settings.social-links.destroy');
+
+    Route::get('/banners', [AdminBannersController::class, 'index'])->name('banners.index');
+    Route::get('/banners/create', [AdminBannersController::class, 'create'])->name('banners.create');
+    Route::post('/banners', [AdminBannersController::class, 'store'])->name('banners.store');
+    Route::get('/banners/{id}/edit', [AdminBannersController::class, 'edit'])->name('banners.edit');
+    Route::post('/banners/{id}', [AdminBannersController::class, 'update'])->name('banners.update');
+    Route::post('/banners/{id}/toggle', [AdminBannersController::class, 'toggleEnabled'])->name('banners.toggle');
+    Route::post('/banners/{id}/delete', [AdminBannersController::class, 'destroy'])->name('banners.destroy');
+
+    Route::get('/testimonials', [AdminTestimonialsController::class, 'index'])->name('testimonials.index');
+    Route::get('/testimonials/create', [AdminTestimonialsController::class, 'create'])->name('testimonials.create');
+    Route::post('/testimonials', [AdminTestimonialsController::class, 'store'])->name('testimonials.store');
+    Route::get('/testimonials/{id}/edit', [AdminTestimonialsController::class, 'edit'])->name('testimonials.edit');
+    Route::post('/testimonials/{id}', [AdminTestimonialsController::class, 'update'])->name('testimonials.update');
+    Route::post('/testimonials/{id}/toggle', [AdminTestimonialsController::class, 'togglePublished'])->name('testimonials.toggle');
+    Route::post('/testimonials/{id}/delete', [AdminTestimonialsController::class, 'destroy'])->name('testimonials.destroy');
+
+    Route::get('/why-join', [AdminWhyJoinController::class, 'index'])->name('why-join.index');
+    Route::post('/why-join', [AdminWhyJoinController::class, 'update'])->name('why-join.update');
+    Route::get('/why-join/benefits', [AdminWhyJoinController::class, 'benefits'])->name('why-join.benefits');
+    Route::get('/why-join/benefits/create', [AdminWhyJoinController::class, 'createBenefit'])->name('why-join.benefits.create');
+    Route::post('/why-join/benefits', [AdminWhyJoinController::class, 'storeBenefit'])->name('why-join.benefits.store');
+    Route::get('/why-join/benefits/{id}/edit', [AdminWhyJoinController::class, 'editBenefit'])->name('why-join.benefits.edit');
+    Route::post('/why-join/benefits/{id}', [AdminWhyJoinController::class, 'updateBenefit'])->name('why-join.benefits.update');
+    Route::post('/why-join/benefits/{id}/delete', [AdminWhyJoinController::class, 'destroyBenefit'])->name('why-join.benefits.destroy');
+    Route::post('/why-join/benefits/{id}/move', [AdminWhyJoinController::class, 'moveBenefit'])->name('why-join.benefits.move');
+    Route::get('/why-join/photos', [AdminWhyJoinController::class, 'photos'])->name('why-join.photos');
+    Route::get('/why-join/photos/create', [AdminWhyJoinController::class, 'createPhoto'])->name('why-join.photos.create');
+    Route::post('/why-join/photos', [AdminWhyJoinController::class, 'storePhoto'])->name('why-join.photos.store');
+    Route::get('/why-join/photos/{id}/edit', [AdminWhyJoinController::class, 'editPhoto'])->name('why-join.photos.edit');
+    Route::post('/why-join/photos/{id}', [AdminWhyJoinController::class, 'updatePhoto'])->name('why-join.photos.update');
+    Route::post('/why-join/photos/{id}/set-featured', [AdminWhyJoinController::class, 'setFeaturedPhoto'])->name('why-join.photos.set-featured');
+    Route::post('/why-join/photos/{id}/toggle', [AdminWhyJoinController::class, 'toggleActivePhoto'])->name('why-join.photos.toggle');
+    Route::post('/why-join/photos/{id}/move', [AdminWhyJoinController::class, 'movePhoto'])->name('why-join.photos.move');
+    Route::post('/why-join/photos/{id}/delete', [AdminWhyJoinController::class, 'destroyPhoto'])->name('why-join.photos.destroy');
 });
 
 // ---------------- Artist area ----------------

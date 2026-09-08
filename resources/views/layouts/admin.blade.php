@@ -50,8 +50,24 @@
             <a href="{{ route('admin.art-mediums.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.art-mediums.*') ? 'active' : '' }}">
                 <i class="bi bi-palette"></i> Art Mediums
             </a>
-            {{-- More modules (Artists, Artworks, Activities, Applications, Website content,
-                 Users & Permissions, etc.) are ported incrementally after this scaffold. --}}
+            <div class="dashboard-nav-heading">Website</div>
+            <a href="{{ route('admin.settings.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.settings.index') ? 'active' : '' }}">
+                <i class="bi bi-gear"></i> General Settings &amp; Logo
+            </a>
+            <a href="{{ route('admin.settings.social-links') }}" class="dashboard-nav-link {{ request()->routeIs('admin.settings.social-links*') ? 'active' : '' }}">
+                <i class="bi bi-share"></i> Social Media
+            </a>
+            <a href="{{ route('admin.banners.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.banners.*') ? 'active' : '' }}">
+                <i class="bi bi-image"></i> Homepage Banners
+            </a>
+            <a href="{{ route('admin.why-join.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.why-join.*') ? 'active' : '' }}">
+                <i class="bi bi-heart"></i> Why Join Section
+            </a>
+            <a href="{{ route('admin.testimonials.index') }}" class="dashboard-nav-link {{ request()->routeIs('admin.testimonials.*') ? 'active' : '' }}">
+                <i class="bi bi-chat-quote"></i> Testimonials
+            </a>
+            {{-- Navigation Menu, FAQ, and Pages, plus Users & Permissions, are
+                 ported incrementally after this scaffold. --}}
         </nav>
 
         <main class="dashboard-content">
