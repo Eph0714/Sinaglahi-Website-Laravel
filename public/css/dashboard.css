@@ -171,6 +171,8 @@
   transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
 .stat-card:hover { box-shadow: var(--dash-shadow-lg); transform: translateY(-1px); }
+a.stat-card { color: inherit; text-decoration: none; cursor: pointer; }
+a.stat-card:hover { color: inherit; border-color: var(--color-primary); }
 .stat-card .stat-icon {
   width: 42px; height: 42px; flex-shrink: 0;
   border-radius: 8px;
